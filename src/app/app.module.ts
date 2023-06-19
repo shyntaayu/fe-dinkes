@@ -1,13 +1,21 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app.routing';
-import { ComponentsModule } from './components/components.module';
-import { AppComponent } from './app.component';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
+import { AppRoutingModule } from "./app.routing";
+import { ComponentsModule } from "./components/components.module";
+import { AppComponent } from "./app.component";
+import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+import { UtilsModule } from "shared/utils/utils.module";
+import { AppConfig } from "./model/app-config";
+import { AppConfigService } from "shared/appconfig.service";
 
+export function initializerFn(jsonAppConfigService: AppConfigService) {
+  return () => {
+    return jsonAppConfigService.loadConfig();
+  };
+}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -17,13 +25,22 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+    UtilsModule,
   ],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-
+  declarations: [AppComponent, AdminLayoutComponent],
+  providers: [
+    {
+      provide: AppConfig,
+      deps: [HttpClient],
+      useExisting: AppConfigService,
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppConfigService],
+      useFactory: initializerFn,
+    },
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

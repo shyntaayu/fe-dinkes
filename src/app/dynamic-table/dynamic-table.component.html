@@ -1,0 +1,18 @@
+<div class="card-body table-responsive">
+    <table class="table table-hover">
+        <thead class="text-warning">
+            <tr>
+                <th>Penyakit Name</th>
+                <th>Daerah Name</th>
+                <th *ngFor="let tahun of years">{{ tahun }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td>{{ item.penyakit_name }}</td>
+                <td>{{ item.daerah_name }}</td>
+                <td *ngFor="let tahun of years">{{ item[tahun] }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
