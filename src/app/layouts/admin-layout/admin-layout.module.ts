@@ -23,6 +23,10 @@ import { UtilsModule } from "shared/utils/utils.module";
 import { PenyakitService } from "app/services/penyakit.service";
 import { HttpClientModule } from "@angular/common/http";
 import { DynamicTableComponent } from "app/dynamic-table/dynamic-table.component";
+import { MultiSelectModule } from "primeng/multiselect";
+import { SelectButtonModule } from "primeng/selectbutton";
+import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
+import { TableModule } from "primeng/table";
 
 @NgModule({
   imports: [
@@ -39,6 +43,9 @@ import { DynamicTableComponent } from "app/dynamic-table/dynamic-table.component
     MatTooltipModule,
     ShareModule,
     UtilsModule,
+    MultiSelectModule,
+    SelectButtonModule,
+    TableModule,
   ],
   declarations: [
     DashboardComponent,
@@ -51,6 +58,7 @@ import { DynamicTableComponent } from "app/dynamic-table/dynamic-table.component
     UpgradeComponent,
     DataComponent,
     DynamicTableComponent,
+    HasilClusteringComponent,
   ],
   providers: [PenyakitService],
 })

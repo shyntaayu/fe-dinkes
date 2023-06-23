@@ -34,25 +34,28 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="profile">
                                 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Penyakit</label>
+                                        <div class="col-md-9 col-9">
                                             <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit"
                                                 (ngModelChange)="filterPenyakit($event)">
                                             </penyakit-ddl>
                                         </div>
-                                        <div class="col-md-4">
-                                            <pilihan-ddl formControlName="baris" [(ngModel)]="baris" label="Baris">
-                                            </pilihan-ddl>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <pilihan-ddl formControlName="kolom" [(ngModel)]="kolom" label="Kolom">
-                                            </pilihan-ddl>
+                                    </div>
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Baris</label>
+                                        <div class="col-md-9 col-9">
+                                            <p-selectButton [options]="stateOptions" [(ngModel)]="baris"
+                                                formControlName="baris" optionLabel="label"
+                                                (onChange)="toggleOption($event)" optionValue="value"></p-selectButton>
                                         </div>
                                     </div>
-                                    <button mat-raised-button type="submit" class="btn btn-info"
+                                    <button mat-raised-button type="submit" class="btn btn-success pull-right"
                                         [disabled]="!profileForm.valid" [loading]="loading">Cari</button>
+                                    <div class="clearfix"></div>
                                 </form>
-                                <app-dynamic-table [data]="listPenyakitTemp"></app-dynamic-table>
+                                <app-dynamic-table [data]="listPenyakitTemp"
+                                    (prosesClustering)="clusterProcess($event)"></app-dynamic-table>
                             </div>
                             <div class="tab-pane" id="messages">
                                 <table class="table">

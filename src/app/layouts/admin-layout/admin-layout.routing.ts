@@ -9,6 +9,7 @@ import { MapsComponent } from "../../maps/maps.component";
 import { NotificationsComponent } from "../../notifications/notifications.component";
 import { UpgradeComponent } from "../../upgrade/upgrade.component";
 import { DataComponent } from "app/data/data.component";
+import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -62,4 +63,5 @@ export const AdminLayoutRoutes: Routes = [
   { path: "notifications", component: NotificationsComponent },
   { path: "upgrade", component: UpgradeComponent },
   { path: "data", component: DataComponent },
+  { path: "hasil", component: HasilClusteringComponent },
 ];

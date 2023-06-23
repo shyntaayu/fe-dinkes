@@ -190,10 +190,10 @@ export class MainService {
   //   );
   // }
 
-  // addKrs(data: ModelAddKRS): Observable<any> {
-  //   let API_URL = `${this.appConfig.apiUrlKrs}/krs/mahasiswa`;
-  //   return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
-  // }
+  processClustering(data: any): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/main/1`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
 
   // Error handling
   errorMgmt(error: HttpErrorResponse) {

@@ -17,30 +17,18 @@ const noop = () => {};
 @Component({
   selector: "penyakit-ddl",
   template: `<div [busyIf]="isLoading">
-    <mat-form-field class="example-full-width">
-      <mat-label>Penyakit</mat-label>
-      <input
-        type="text"
-        placeholder="Pilih Penyakit"
-        aria-label="Number"
-        matInput
-        [matAutocomplete]="auto"
+    <div class="example-full-width">
+      <p-multiSelect
+        [options]="penyakit"
         [(ngModel)]="inputValue"
-        (optionSelected)="onChange($event.option.value)"
-      />
-      <mat-autocomplete
-        autoActiveFirstOption
-        #auto="matAutocomplete"
-        [displayWith]="displayFn.bind(this)"
-      >
-        <mat-option
-          *ngFor="let option of penyakit"
-          [value]="option.penyakit_name"
-        >
-          {{ option.penyakit_name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        optionLabel="penyakit_name"
+        optionValue="penyakit_name"
+        [style]="{ width: '100%' }"
+        [panelStyle]="{ width: '100%' }"
+        defaultLabel="Pilih Penyakit"
+        display="chip"
+      ></p-multiSelect>
+    </div>
   </div>`,
   providers: [
     {

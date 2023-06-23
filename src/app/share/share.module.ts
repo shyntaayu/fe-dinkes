@@ -9,6 +9,7 @@ import { UtilsModule } from "shared/utils/utils.module";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FormControlStyleComponent } from "./form-control-style.component";
 import { ControlMessageComponent } from "./control-message.component";
+import { MultiSelectModule } from "primeng/multiselect";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ControlMessageComponent } from "./control-message.component";
     FormsModule,
     ReactiveFormsModule,
     UtilsModule,
+    MultiSelectModule,
   ],
   declarations: [
     PenyakitDdlComponent,
