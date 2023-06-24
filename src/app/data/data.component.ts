@@ -14,10 +14,8 @@ export class DataComponent extends AppComponentBase implements OnInit {
   loading = false;
   listPenyakit = [];
   listPenyakitTemp = [];
-  penyakit;
-  baris: string = "tahun";
-  kolom: string = "daerah";
-  stateOptions: any[];
+  penyakit = [];
+  daerah = [];
 
   constructor(
     private fb: FormBuilder,
@@ -27,17 +25,12 @@ export class DataComponent extends AppComponentBase implements OnInit {
     super(injector);
     this.profileForm = this.fb.group({
       penyakit: ["", Validators.required],
-      baris: ["", Validators.required],
+      daerah: ["", Validators.required],
     });
-    this.stateOptions = [
-      { label: "Daerah", value: "daerah" },
-      { label: "Tahun", value: "tahun" },
-    ];
   }
 
   ngOnInit(): void {
     this.getListPenyakit();
-    this.toggleOption(this.baris);
   }
 
   onSubmit() {
@@ -103,20 +96,21 @@ export class DataComponent extends AppComponentBase implements OnInit {
       );
   }
 
-  filterPenyakit(param) {
-    console.log(param);
+  filterAll() {
     // Clone the array using slice()
     const clonedListPenyakit = this.listPenyakit.slice();
+    const filteredData = clonedListPenyakit.map((item) => {
+      const filteredTable = item.list_table.filter((row) => {
+        return (
+          this.daerah.includes(row.daerah_name) &&
+          this.penyakit.includes(item.penyakit_name)
+        );
+      });
 
-    // Filter the cloned array
-    const filteredListPenyakit = clonedListPenyakit.filter((penyakit) =>
-      param.includes(penyakit.penyakit_name)
-    );
-    this.listPenyakitTemp = filteredListPenyakit;
-  }
+      return { penyakit_name: item.penyakit_name, list_table: filteredTable };
+    });
 
-  toggleOption(selectedValue) {
-    this.kolom = selectedValue.value == "tahun" ? "daerah" : "tahun";
+    this.listPenyakitTemp = filteredData;
   }
 
   clusterProcess(param) {

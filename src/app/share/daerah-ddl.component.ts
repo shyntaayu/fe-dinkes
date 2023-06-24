@@ -11,21 +11,21 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
 } from "@angular/forms";
-import { PenyakitService } from "app/services/penyakit.service";
+import { DaerahService } from "app/services/daerah.service";
 import { AppComponentBase } from "shared/app-component-base";
 const noop = () => {};
 @Component({
-  selector: "penyakit-ddl",
+  selector: "daerah-ddl",
   template: `<div [busyIf]="isLoading">
     <div class="example-full-width">
       <p-multiSelect
-        [options]="penyakit"
+        [options]="daerah"
         [(ngModel)]="inputValue"
-        optionLabel="penyakit_name"
-        optionValue="penyakit_name"
+        optionLabel="daerah_name"
+        optionValue="daerah_name"
         [style]="{ width: '100%' }"
         [panelStyle]="{ width: '100%' }"
-        defaultLabel="Pilih Penyakit"
+        defaultLabel="Pilih Daerah"
         display="chip"
       ></p-multiSelect>
     </div>
@@ -33,37 +33,37 @@ const noop = () => {};
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: PenyakitDdlComponent,
+      useExisting: DaerahDdlComponent,
       multi: true,
     },
   ],
 })
-export class PenyakitDdlComponent
+export class DaerahDdlComponent
   extends AppComponentBase
   implements OnInit, ControlValueAccessor
 {
   private innerValue: any = "";
-  penyakit;
+  daerah;
 
   onChange: (value: string) => void;
 
   @Input() isDisabled: boolean = false;
-  @Input() selectedPenyakit: number = undefined;
+  @Input() selectedDaerah: number = undefined;
 
   isLoading = false;
 
   private onTouchedCallback: () => void = noop;
 
-  constructor(private _penyakitService: PenyakitService, injector: Injector) {
+  constructor(private _daerahService: DaerahService, injector: Injector) {
     super(injector);
   }
 
   ngOnInit(): void {
     let self = this;
     self.isLoading = true;
-    this._penyakitService.getAllPenyakit().subscribe(
+    this._daerahService.getAllDaerah().subscribe(
       (result) => {
-        this.penyakit = result;
+        this.daerah = result;
         self.isLoading = false;
       },
       (err) => {
@@ -75,7 +75,7 @@ export class PenyakitDdlComponent
   }
 
   ngOnChanges(): void {
-    this.selectedPenyakit = this.selectedPenyakit;
+    this.selectedDaerah = this.selectedDaerah;
   }
 
   get inputValue(): any {
@@ -105,7 +105,7 @@ export class PenyakitDdlComponent
 
   displayFn(value?: number) {
     return value
-      ? this.penyakit.find((_) => _.penyakit_name === value).penyakit_name
+      ? this.daerah.find((_) => _.daerah_name === value).daerah_name
       : undefined;
   }
 }

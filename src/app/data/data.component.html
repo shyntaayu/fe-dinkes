@@ -33,25 +33,32 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="profile">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button mat-raised-button type="submit" class="btn btn-rose pull-right"
+                                            (click)="getListPenyakit()" [loading]="loading">Perbarui Data</button>
+                                    </div>
+                                </div>
+
                                 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
                                     <div class="row form-row">
                                         <label class="col-md-3 col-2 col-form-label">Penyakit</label>
                                         <div class="col-md-9 col-9">
                                             <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit"
-                                                (ngModelChange)="filterPenyakit($event)">
+                                                (ngModelChange)="filterAll()">
                                             </penyakit-ddl>
                                         </div>
                                     </div>
                                     <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Baris</label>
+                                        <label class="col-md-3 col-2 col-form-label">Daerah</label>
                                         <div class="col-md-9 col-9">
-                                            <p-selectButton [options]="stateOptions" [(ngModel)]="baris"
-                                                formControlName="baris" optionLabel="label"
-                                                (onChange)="toggleOption($event)" optionValue="value"></p-selectButton>
+                                            <daerah-ddl formControlName="daerah" [(ngModel)]="daerah"
+                                                (ngModelChange)="filterAll()">
+                                            </daerah-ddl>
                                         </div>
                                     </div>
-                                    <button mat-raised-button type="submit" class="btn btn-success pull-right"
-                                        [disabled]="!profileForm.valid" [loading]="loading">Cari</button>
+                                    <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
+                                        [disabled]="!profileForm.valid" [loading]="loading">Cari</button> -->
                                     <div class="clearfix"></div>
                                 </form>
                                 <app-dynamic-table [data]="listPenyakitTemp"

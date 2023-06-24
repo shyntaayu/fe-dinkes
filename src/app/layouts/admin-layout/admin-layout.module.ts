@@ -27,6 +27,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
 import { TableModule } from "primeng/table";
+import { TooltipModule } from "primeng/tooltip";
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { TableModule } from "primeng/table";
     MultiSelectModule,
     SelectButtonModule,
     TableModule,
+    TooltipModule,
   ],
   declarations: [
     DashboardComponent,

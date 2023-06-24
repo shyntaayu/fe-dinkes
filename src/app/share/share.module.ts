@@ -10,6 +10,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FormControlStyleComponent } from "./form-control-style.component";
 import { ControlMessageComponent } from "./control-message.component";
 import { MultiSelectModule } from "primeng/multiselect";
+import { DaerahDdlComponent } from "./daerah-ddl.component";
 
 @NgModule({
   imports: [
@@ -27,12 +28,14 @@ import { MultiSelectModule } from "primeng/multiselect";
     PilihanDdlComponent,
     ControlMessageComponent,
     FormControlStyleComponent,
+    DaerahDdlComponent,
   ],
   exports: [
     PenyakitDdlComponent,
     PilihanDdlComponent,
     ControlMessageComponent,
     FormControlStyleComponent,
+    DaerahDdlComponent,
   ],
 })
 export class ShareModule {}
