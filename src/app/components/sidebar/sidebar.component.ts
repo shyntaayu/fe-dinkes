@@ -16,6 +16,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "bubble_chart",
     class: "",
   },
+  {
+    path: "/grafik",
+    title: "Grafik",
+    icon: "timeline",
+    class: "",
+  },
   { path: "/user-profile", title: "User Profile", icon: "person", class: "" },
   {
     path: "/table-list",

@@ -28,6 +28,9 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
 import { TableModule } from "primeng/table";
 import { TooltipModule } from "primeng/tooltip";
+import { PetaComponent } from "app/peta/peta.component";
+import { ChartModule } from "primeng/chart";
+import { GrafikComponent } from "app/grafik/grafik.component";
 
 @NgModule({
   imports: [
@@ -48,6 +51,7 @@ import { TooltipModule } from "primeng/tooltip";
     SelectButtonModule,
     TableModule,
     TooltipModule,
+    ChartModule,
   ],
   declarations: [
     DashboardComponent,
@@ -61,6 +65,8 @@ import { TooltipModule } from "primeng/tooltip";
     DataComponent,
     DynamicTableComponent,
     HasilClusteringComponent,
+    PetaComponent,
+    GrafikComponent,
   ],
   providers: [PenyakitService],
 })
