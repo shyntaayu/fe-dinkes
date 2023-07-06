@@ -57,20 +57,13 @@
                                             </daerah-ddl>
                                         </div>
                                     </div>
-                                    <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
-                                        <div class="col-md-9 col-9">
-                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
-                                                (ngModelChange)="filterAll()">
-                                            </tahun-ddl>
-                                        </div>
-                                    </div>
                                     <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
                                         [disabled]="!profileForm.valid" [loading]="loading">Cari</button> -->
                                     <div class="clearfix"></div>
                                 </form>
-                                <app-dynamic-table [data]="listPenyakitTemp" [type]="1"
-                                    (prosesClustering)="clusterProcess($event)"></app-dynamic-table>
+                                <app-dynamic-table [data]="listPenyakitTemp" [type]="2"
+                                    (prosesClustering)="prediksiProcess($event)"
+                                    (prosesDiagram)="diagramProcess($event)"></app-dynamic-table>
                             </div>
                             <div class="tab-pane" id="messages">
                                 <table class="table">

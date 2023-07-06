@@ -11,6 +11,7 @@ import { UpgradeComponent } from "../../upgrade/upgrade.component";
 import { DataComponent } from "app/data/data.component";
 import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
 import { GrafikComponent } from "app/grafik/grafik.component";
+import { PrediksiComponent } from "app/prediksi/prediksi.component";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -66,4 +67,5 @@ export const AdminLayoutRoutes: Routes = [
   { path: "data", component: DataComponent },
   { path: "hasil", component: HasilClusteringComponent },
   { path: "grafik", component: GrafikComponent },
+  { path: "prediksi", component: PrediksiComponent },
 ];

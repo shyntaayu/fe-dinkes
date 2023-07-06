@@ -11,63 +11,63 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
 } from "@angular/forms";
-import { PenyakitService } from "app/services/penyakit.service";
+import { TahunService } from "app/services/tahun.service";
 import { AppComponentBase } from "shared/app-component-base";
 const noop = () => {};
 @Component({
-  selector: "penyakit-ddl",
+  selector: "tahun-ddl",
   template: `<div [busyIf]="isLoading">
     <div class="example-full-width">
       <p-multiSelect
-        [options]="penyakit"
+        [options]="tahun"
         [(ngModel)]="inputValue"
-        optionLabel="penyakit_name"
-        optionValue="penyakit_name"
+        optionLabel="tahun"
+        optionValue="tahun"
         [style]="{ width: '100%' }"
         [panelStyle]="{ width: '100%' }"
-        defaultLabel="Pilih Penyakit"
+        defaultLabel="Pilih Tahun"
         display="chip"
       >
         <ng-template pTemplate="header">
           <div class="checkbox-all-text">Select All</div>
-        </ng-template>
-      </p-multiSelect>
+        </ng-template></p-multiSelect
+      >
     </div>
   </div>`,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: PenyakitDdlComponent,
+      useExisting: TahunDdlComponent,
       multi: true,
     },
   ],
 })
-export class PenyakitDdlComponent
+export class TahunDdlComponent
   extends AppComponentBase
   implements OnInit, ControlValueAccessor
 {
   private innerValue: any = "";
-  penyakit;
+  tahun;
 
   onChange: (value: string) => void;
 
   @Input() isDisabled: boolean = false;
-  @Input() selectedPenyakit: number = undefined;
+  @Input() selectedTahun: number = undefined;
 
   isLoading = false;
 
   private onTouchedCallback: () => void = noop;
 
-  constructor(private _penyakitService: PenyakitService, injector: Injector) {
+  constructor(private _tahunService: TahunService, injector: Injector) {
     super(injector);
   }
 
   ngOnInit(): void {
     let self = this;
     self.isLoading = true;
-    this._penyakitService.getAllPenyakit().subscribe(
+    this._tahunService.getAllTahun().subscribe(
       (result) => {
-        this.penyakit = result;
+        this.tahun = result;
         self.isLoading = false;
       },
       (err) => {
@@ -79,7 +79,7 @@ export class PenyakitDdlComponent
   }
 
   ngOnChanges(): void {
-    this.selectedPenyakit = this.selectedPenyakit;
+    this.selectedTahun = this.selectedTahun;
   }
 
   get inputValue(): any {
@@ -108,8 +108,6 @@ export class PenyakitDdlComponent
   }
 
   displayFn(value?: number) {
-    return value
-      ? this.penyakit.find((_) => _.penyakit_name === value).penyakit_name
-      : undefined;
+    return value ? this.tahun.find((_) => _.tahun === value).tahun : undefined;
   }
 }

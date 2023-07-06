@@ -31,6 +31,7 @@ import { TooltipModule } from "primeng/tooltip";
 import { PetaComponent } from "app/peta/peta.component";
 import { ChartModule } from "primeng/chart";
 import { GrafikComponent } from "app/grafik/grafik.component";
+import { PrediksiComponent } from "app/prediksi/prediksi.component";
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { GrafikComponent } from "app/grafik/grafik.component";
     HasilClusteringComponent,
     PetaComponent,
     GrafikComponent,
+    PrediksiComponent,
   ],
   providers: [PenyakitService],
 })

@@ -27,7 +27,11 @@ const noop = () => {};
         [panelStyle]="{ width: '100%' }"
         defaultLabel="Pilih Daerah"
         display="chip"
-      ></p-multiSelect>
+      >
+        <ng-template pTemplate="header">
+          <div class="checkbox-all-text">Select All</div>
+        </ng-template></p-multiSelect
+      >
     </div>
   </div>`,
   providers: [

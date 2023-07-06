@@ -10,3 +10,27 @@
 .form-row {
   margin-bottom: 8px;
 }
+.checkbox-all-text {
+  position: relative;
+  display: block;
+  margin-right: 10px;
+}
+
+.bg-tinggi {
+  background: #ffcdd2;
+}
+.bg-sedang {
+  background: #fff9c4;
+}
+.bg-rendah {
+  background: #c8e6c9;
+}
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-button {
+  display: flex;
+  gap: 10px;
+}

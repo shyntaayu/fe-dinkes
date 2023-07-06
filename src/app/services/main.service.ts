@@ -191,7 +191,12 @@ export class MainService {
   // }
 
   processClustering(data: any): Observable<any> {
-    let API_URL = `${this.appConfig.apiUrl}/main/1`;
+    let API_URL = `${this.appConfig.apiUrl}/main/clustering`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
+
+  processPrediksi(data: any): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/main/prediksi`;
     return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
   }
 

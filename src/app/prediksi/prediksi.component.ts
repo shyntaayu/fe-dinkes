@@ -1,33 +1,33 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { MainService } from "app/services/main.service";
 import { finalize } from "rxjs/operators";
 import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
-  selector: "app-data",
-  templateUrl: "./data.component.html",
-  styleUrls: ["./data.component.css"],
+  selector: "app-prediksi",
+  templateUrl: "./prediksi.component.html",
+  styleUrls: ["./prediksi.component.css"],
 })
-export class DataComponent extends AppComponentBase implements OnInit {
+export class PrediksiComponent extends AppComponentBase implements OnInit {
   profileForm: FormGroup;
   loading = false;
   listPenyakit = [];
   listPenyakitTemp = [];
   penyakit = [];
   daerah = [];
-  tahun = [];
 
   constructor(
     private fb: FormBuilder,
     private _mainService: MainService,
+    private _router: Router,
     injector: Injector
   ) {
     super(injector);
     this.profileForm = this.fb.group({
       penyakit: ["", Validators.required],
       daerah: ["", Validators.required],
-      tahun: ["", Validators.required],
     });
   }
 
@@ -100,48 +100,26 @@ export class DataComponent extends AppComponentBase implements OnInit {
 
   filterAll() {
     // Clone the array using slice()
-    console.log(this.tahun);
     const clonedListPenyakit = this.listPenyakit.slice();
     const filteredData = clonedListPenyakit.map((item) => {
       const filteredTable = item.list_table.filter((row) => {
         return (
-          // this.daerah.includes(row.daerah_name) &&
-          // this.penyakit.includes(item.penyakit_name) &&
-          Object.keys(row)
-            .filter((key) => this.tahun.includes(key))
-            .reduce((obj, key) => {
-              obj[key] = obj[key];
-              return obj;
-            }, {})
+          this.daerah.includes(row.daerah_name) &&
+          this.penyakit.includes(item.penyakit_name)
         );
       });
 
       return { penyakit_name: item.penyakit_name, list_table: filteredTable };
     });
 
-    // const filteredData = clonedListPenyakit.map((item) => ({
-    //   penyakit_name: item.penyakit_name,
-    //   list_table: item.list_table.filter((data) => {
-    //     Object.keys(data)
-    //       .filter((key) => this.tahun.includes(key))
-    //       .reduce((obj, key) => {
-    //         obj[key] = obj[key];
-    //         return obj;
-    //       }, {});
-    //     // this.daerah.includes(obj.daerah_name) &&
-    //     // this.penyakit.includes(item.penyakit_name)
-    //   }),
-    // }));
-
     this.listPenyakitTemp = filteredData;
-    console.log("filter", this.listPenyakitTemp);
   }
 
-  clusterProcess(param) {
+  prediksiProcess(param) {
     console.log(param);
     this.loading = true;
     this._mainService
-      .processClustering(param.data)
+      .processPrediksi(param.data)
       .pipe(
         finalize(() => {
           this.loading = false;
@@ -154,14 +132,12 @@ export class DataComponent extends AppComponentBase implements OnInit {
           this.listPenyakitTemp = this.listPenyakit;
           this.listPenyakit = [...this.listPenyakit];
           this.listPenyakitTemp = [...this.listPenyakitTemp];
-
-          console.log("listPenyakit", this.listPenyakitTemp);
           if (res.status == 0) {
             this.showMessage("Eror!", res.message, "error");
           } else {
             this.showMessage(
               "Sukses!",
-              "Berhasil menghitung cluster",
+              "Berhasil menghitung prediksi",
               "success"
             );
           }
@@ -170,5 +146,13 @@ export class DataComponent extends AppComponentBase implements OnInit {
           this.showMessage("Eror!", error, "error");
         }
       );
+  }
+
+  diagramProcess(param) {
+    console.log(param);
+    this.loading = true;
+    localStorage.setItem("dataLine", JSON.stringify(param.data));
+    localStorage.setItem("titleLine", param.title);
+    this._router.navigate(["grafik"]);
   }
 }
