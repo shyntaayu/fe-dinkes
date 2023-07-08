@@ -10,6 +10,7 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
 import { UtilsModule } from "shared/utils/utils.module";
 import { AppConfig } from "./model/app-config";
 import { AppConfigService } from "shared/appconfig.service";
+import { LoginComponent } from "./login/login.component";
 
 export function initializerFn(jsonAppConfigService: AppConfigService) {
   return () => {
@@ -27,7 +28,7 @@ export function initializerFn(jsonAppConfigService: AppConfigService) {
     AppRoutingModule,
     UtilsModule,
   ],
-  declarations: [AppComponent, AdminLayoutComponent],
+  declarations: [AppComponent, AdminLayoutComponent, LoginComponent],
   providers: [
     {
       provide: AppConfig,

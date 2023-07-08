@@ -12,6 +12,9 @@ import { DataComponent } from "app/data/data.component";
 import { HasilClusteringComponent } from "app/hasil-clustering/hasil-clustering.component";
 import { GrafikComponent } from "app/grafik/grafik.component";
 import { PrediksiComponent } from "app/prediksi/prediksi.component";
+import { PieClusterComponent } from "app/pie-cluster/pie-cluster.component";
+import { InputDataComponent } from "app/input-data/input-data.component";
+import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -68,4 +71,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "hasil", component: HasilClusteringComponent },
   { path: "grafik", component: GrafikComponent },
   { path: "prediksi", component: PrediksiComponent },
+  { path: "diagram", component: PieClusterComponent },
+  { path: "input", component: InputDataComponent },
+  { path: "upload-bulk", component: BulkInputComponent },
 ];

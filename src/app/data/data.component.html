@@ -70,7 +70,8 @@
                                     <div class="clearfix"></div>
                                 </form>
                                 <app-dynamic-table [data]="listPenyakitTemp" [type]="1"
-                                    (prosesClustering)="clusterProcess($event)"></app-dynamic-table>
+                                    (prosesClustering)="clusterProcess($event)"
+                                    (prosesDiagram)="diagramProcess($event)"></app-dynamic-table>
                             </div>
                             <div class="tab-pane" id="messages">
                                 <table class="table">

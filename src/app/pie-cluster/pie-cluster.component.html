@@ -1,0 +1,32 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-success">
+                        <h4 class="card-title" style="flex: 1;">Hasil Clustering Penyakit {{title}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p-chart type="pie" [data]="data" [options]="chartOptions"
+                                    [style]="{'width': '10%'}"></p-chart>
+                            </div>
+                            <div class="col-md-6">
+                                <p-accordion>
+                                    <p-accordionTab [header]="item.cluster" *ngFor="let item of dataTable"
+                                        [ngClass]="item.cluster == 'tinggi' ? 'bg-tinggi' : item.cluster == 'rendah' ? 'bg-rendah' : item.cluster == 'sedang' ? 'bg-sedang':''">
+                                        <ol>
+                                            <li *ngFor="let child of item.list_daerah">{{child.daerah_name}}</li>
+                                        </ol>
+                                    </p-accordionTab>
+                                </p-accordion>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

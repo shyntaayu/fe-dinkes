@@ -1,0 +1,38 @@
+<div filter-color="black" class="bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="card card-signup" [busyIf]="loading"
+                    style="box-shadow: 0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);">
+                    <h2 class="card-title text-center">Login</h2>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mr-auto">
+                                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                                    <div class="form-group has-default">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="material-icons">mail</i></span></div>
+                                            <input type="text" placeholder="Username..." class="form-control"
+                                                autocomplete="off" formControlName="email" name="usernameSiakad">
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-default">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="material-icons">lock_outline</i></span>
+                                            </div><input type="password" placeholder="Password..." autocomplete="off"
+                                                class="form-control" formControlName="password" name="passwordSiakad">
+                                        </div>
+                                    </div>
+                                    <div class="text-center"><button type="submit" [disabled]="!profileForm.valid"
+                                            class="btn btn-success btn-round mt-4">Submit</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

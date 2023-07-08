@@ -34,3 +34,26 @@
   display: flex;
   gap: 10px;
 }
+.logo-title {
+  text-transform: none;
+  text-align: left;
+}
+
+.sidebar .logo .simple-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar .logo-img {
+  width: 35px;
+  display: block;
+  max-height: 30px;
+  margin-left: 13px;
+  margin-right: 15px;
+}
+
+.sidebar .logo-img img {
+  width: 35px;
+  position: inherit;
+}

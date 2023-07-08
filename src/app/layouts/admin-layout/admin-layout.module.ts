@@ -32,6 +32,10 @@ import { PetaComponent } from "app/peta/peta.component";
 import { ChartModule } from "primeng/chart";
 import { GrafikComponent } from "app/grafik/grafik.component";
 import { PrediksiComponent } from "app/prediksi/prediksi.component";
+import { PieClusterComponent } from "app/pie-cluster/pie-cluster.component";
+import { AccordionModule } from "primeng/accordion";
+import { InputDataComponent } from "app/input-data/input-data.component";
+import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
 
 @NgModule({
   imports: [
@@ -53,6 +57,7 @@ import { PrediksiComponent } from "app/prediksi/prediksi.component";
     TableModule,
     TooltipModule,
     ChartModule,
+    AccordionModule,
   ],
   declarations: [
     DashboardComponent,
@@ -69,6 +74,9 @@ import { PrediksiComponent } from "app/prediksi/prediksi.component";
     PetaComponent,
     GrafikComponent,
     PrediksiComponent,
+    PieClusterComponent,
+    BulkInputComponent,
+    InputDataComponent,
   ],
   providers: [PenyakitService],
 })

@@ -1,26 +1,32 @@
 import {
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
   selector: "app-dynamic-table",
   templateUrl: "./dynamic-table.component.html",
   styleUrls: ["./dynamic-table.component.css"],
 })
-export class DynamicTableComponent implements OnChanges, OnInit {
+export class DynamicTableComponent
+  extends AppComponentBase
+  implements OnChanges, OnInit
+{
   @Input() data: any[];
-  @Input() type: string;
+  @Input() type: any;
   @Output() prosesClustering: EventEmitter<any> = new EventEmitter<any>();
   @Output() prosesDiagram: EventEmitter<any> = new EventEmitter<any>();
   years: string[];
 
-  constructor() {
+  constructor(injector: Injector) {
+    super(injector);
     this.years = [];
   }
   ngOnInit(): void {
@@ -50,6 +56,31 @@ export class DynamicTableComponent implements OnChanges, OnInit {
   }
 
   diagram(index) {
+    // if (this.type == 1) {
+    //   if (this.data[index].list_table.hasOwnProperty("cluster")) {
+    //     this.prosesEmit(index);
+    //   } else {
+    //     this.showMessage(
+    //       "Eror!",
+    //       "Silahkan lakukan proses klustering dulu",
+    //       "error"
+    //     );
+    //   }
+    // } else {
+    //   if (this.data[index].list_table.hasOwnProperty("2022")) {
+    //     this.prosesEmit(index);
+    //   } else {
+    //     this.showMessage(
+    //       "Eror!",
+    //       "Silahkan lakukan proses prediksi dulu",
+    //       "error"
+    //     );
+    //   }
+    // }
+    this.prosesEmit(index);
+  }
+
+  prosesEmit(index) {
     this.prosesDiagram.emit({
       idx: index,
       data: this.data[index].list_table,

@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { MainService } from "app/services/main.service";
 import { finalize } from "rxjs/operators";
 import { AppComponentBase } from "shared/app-component-base";
@@ -21,6 +22,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _mainService: MainService,
+    private _router: Router,
     injector: Injector
   ) {
     super(injector);
@@ -170,5 +172,13 @@ export class DataComponent extends AppComponentBase implements OnInit {
           this.showMessage("Eror!", error, "error");
         }
       );
+  }
+
+  diagramProcess(param) {
+    console.log(param);
+    this.loading = true;
+    localStorage.setItem("dataPie", JSON.stringify(param.data));
+    localStorage.setItem("titlePie", param.title);
+    this._router.navigate(["diagram"]);
   }
 }
