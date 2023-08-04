@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthenticationService } from "app/services/authentication.service";
+import { CookieService } from "ngx-cookie-service";
+import { AppMenuItem } from "./app-menu-item";
 
 declare const $: any;
 declare interface RouteInfo {
@@ -74,6 +77,24 @@ export const ROUTES: RouteInfo[] = [
   //   class: "active-pro",
   // },
 ];
+export const menu: AppMenuItem[] = [
+  new AppMenuItem("Dashboard", "1,2", "dashboard", "/dashboard"),
+  new AppMenuItem("Clustering", "1", "table_chart", "/data"),
+  new AppMenuItem("Hasil Clustering", "1", "bubble_chart", "/hasil"),
+  new AppMenuItem("Prediksi", "1", "cast", "/prediksi"),
+  new AppMenuItem("Grafik", "1", "show_chart", "/grafik"),
+  new AppMenuItem("Diagram Cluster", "1", "pie_chart", "/diagram"),
+  new AppMenuItem("Input Data", "2", "input", "/input"),
+  new AppMenuItem("Upload Bulk Data", "1", "publish", "/upload-bulk"),
+  new AppMenuItem("Transkrip Nilai", "1", "school", "/transkrip-nilai"),
+  new AppMenuItem("Input Nilai", "1,8", "edit_note", "/add-nilai"),
+  new AppMenuItem("Paket KRS", "1", "post_add", "/paket-krs"),
+  new AppMenuItem("Master", "1", "apps", "", [
+    new AppMenuItem("User", "1", "badge", "/master/user"),
+    new AppMenuItem("Role", "1", "lock", "/master/role"),
+    new AppMenuItem("Mahasiswa", "1", "lock", "/master/mahasiswa"),
+  ]),
+];
 
 @Component({
   selector: "app-sidebar",
@@ -82,16 +103,42 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+  menuDashboard;
+  menuNone;
+  menuNew: any[];
+  userFromApi;
 
-  constructor() {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    // this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    console.log("menuItems", this.authenticationService.userValue["role_id"]);
+    this.menuNew = menu;
+    let a = JSON.parse(this.cookieService.get("userMe"));
+    this.userFromApi = a ? a.username : null;
   }
   isMobileMenu() {
     if ($(window).width() > 991) {
       return false;
     }
     return true;
+  }
+
+  showMenuItem(menuItem): boolean {
+    if (menuItem.permissionName) {
+      let permission = menuItem.permissionName.split(",");
+      let f = permission.find((x) => {
+        return x == this.authenticationService.userValue["role_id"];
+      });
+      return f;
+    }
+    return true;
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 }

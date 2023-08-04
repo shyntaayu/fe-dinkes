@@ -58,11 +58,30 @@
         </ul>
     </div>
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
+        <ng-template ngFor let-menuItem [ngForOf]="menuNew" let-mainMenuItemIndex="index">
+            <li routerlinkactive="active" class="nav-item" *ngIf="menuItem.items.length>0">
+                <a data-toggle="collapse" class="nav-link" href="#components{{mainMenuItemIndex}}" aria-expanded="false"
+                    *ngIf="showMenuItem(menuItem)"><i class="material-icons">{{menuItem.icon}}</i>
+                    <p>{{menuItem.name}}<b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="components{{mainMenuItemIndex}}" style="">
+                    <ul class="nav">
+                        <li routerLinkActive="active" *ngFor="let child of menuItem.items"
+                            class="{{child.class}} nav-item">
+                            <a class="nav-link" [routerLink]="[child.route]">
+                                <i class="material-icons">{{child.icon}}</i>
+                                <p>{{child.name}}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li routerLinkActive="active" class="{{menuItem.class}} nav-item" *ngIf="menuItem.items.length==0">
+                <a class="nav-link" [routerLink]="[menuItem.route]" *ngIf="showMenuItem(menuItem)">
+                    <i class="material-icons">{{menuItem.icon}}</i>
+                    <p>{{menuItem.name}}</p>
+                </a>
+            </li>
+        </ng-template>
     </ul>
 </div>

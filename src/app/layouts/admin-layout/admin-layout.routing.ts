@@ -15,6 +15,7 @@ import { PrediksiComponent } from "app/prediksi/prediksi.component";
 import { PieClusterComponent } from "app/pie-cluster/pie-cluster.component";
 import { InputDataComponent } from "app/input-data/input-data.component";
 import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
+import { AuthGuard } from "app/helpers/auth.guard";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -59,7 +60,12 @@ export const AdminLayoutRoutes: Routes = [
   //         component: UpgradeComponent
   //     }]
   // }
-  { path: "dashboard", component: DashboardComponent },
+  {
+    path: "dashboard",
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
   { path: "user-profile", component: UserProfileComponent },
   { path: "table-list", component: TableListComponent },
   { path: "typography", component: TypographyComponent },
@@ -67,11 +73,46 @@ export const AdminLayoutRoutes: Routes = [
   { path: "maps", component: MapsComponent },
   { path: "notifications", component: NotificationsComponent },
   { path: "upgrade", component: UpgradeComponent },
-  { path: "data", component: DataComponent },
-  { path: "hasil", component: HasilClusteringComponent },
-  { path: "grafik", component: GrafikComponent },
-  { path: "prediksi", component: PrediksiComponent },
-  { path: "diagram", component: PieClusterComponent },
-  { path: "input", component: InputDataComponent },
-  { path: "upload-bulk", component: BulkInputComponent },
+  {
+    path: "data",
+    component: DataComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "hasil",
+    component: HasilClusteringComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "grafik",
+    component: GrafikComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "prediksi",
+    component: PrediksiComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "diagram",
+    component: PieClusterComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "input",
+    component: InputDataComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1, 2] },
+  },
+  {
+    path: "upload-bulk",
+    component: BulkInputComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1] },
+  },
 ];

@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { AuthenticationService } from "app/services/authentication.service";
 // import { AuthenticationService } from "app/services/authentication.service";
 import { finalize, first } from "rxjs/operators";
 import { AppComponentBase } from "shared/app-component-base";
@@ -21,7 +22,7 @@ export class LoginComponent extends AppComponentBase implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    // private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     injector: Injector
   ) {
@@ -31,33 +32,33 @@ export class LoginComponent extends AppComponentBase implements OnInit {
       password: ["", Validators.required],
     });
     // redirect to home if already logged in
-    // if (this.authenticationService.userValue) {
-    //   this.router.navigate(["/"]);
-    // }
+    if (this.authenticationService.userValue) {
+      this.router.navigate(["/"]);
+    }
   }
 
   ngOnInit(): void {
-    // this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.profileForm.value);
     this.loading = true;
-    // this.authenticationService
-    //   .login(this.profileForm.value.email, this.profileForm.value.password)
-    //   .pipe(
-    //     first(),
-    //     finalize(() => (this.loading = false))
-    //   )
-    //   .subscribe(
-    //     (data) => {
-    //       this.router.navigate([this.returnUrl]);
-    //     },
-    //     (error) => {
-    //       this.error = error;
-    //       this.showMessage("Eror!", error.message, "error");
-    //     }
-    //   );
+    this.authenticationService
+      .login(this.profileForm.value.email, this.profileForm.value.password)
+      .pipe(
+        first(),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe(
+        (data) => {
+          this.router.navigate([this.returnUrl]);
+        },
+        (error) => {
+          this.error = error;
+          this.showMessage("Eror!", error.message, "error");
+        }
+      );
   }
 }
