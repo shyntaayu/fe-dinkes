@@ -21,6 +21,7 @@ export class DynamicTableComponent
 {
   @Input() data: any[];
   @Input() type: any;
+  @Input() pilihan: any;
   @Output() prosesClustering: EventEmitter<any> = new EventEmitter<any>();
   @Output() prosesDiagram: EventEmitter<any> = new EventEmitter<any>();
   years: string[];
@@ -49,19 +50,23 @@ export class DynamicTableComponent
   }
 
   proses(index, header) {
-    this.prosesClustering.emit({
-      penyakit_name: header.penyakit_name,
+    let obj = {
       idx: index,
       data: this.data[index].list_table,
-    });
+    };
+    if (this.pilihan == 1) obj["penyakit_name"] = header.penyakit_name;
+    if (this.pilihan == 2) obj["daerah_name"] = header.daerah_name;
+    this.prosesClustering.emit(obj);
   }
 
   diagram(index, header) {
-    this.prosesDiagram.emit({
+    let obj = {
       idx: index,
-      penyakit_name: header.penyakit_name,
       data: this.data[index].list_table,
       title: this.data[index].penyakit_name,
-    });
+    };
+    if (this.pilihan == 1) obj["penyakit_name"] = header.penyakit_name;
+    if (this.pilihan == 2) obj["daerah_name"] = header.daerah_name;
+    this.prosesDiagram.emit(obj);
   }
 }

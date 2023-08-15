@@ -18,6 +18,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   penyakit = [];
   daerah = [];
   tahun = [];
+  pilihan = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +35,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getListPenyakit();
+    // this.getListPenyakit();
   }
 
   onSubmit() {
@@ -49,6 +50,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   }
 
   getListPenyakit(param?) {
+    this.pilihan = 1;
     this.resetFilter();
     let model = param;
     this.loading = true;
@@ -108,38 +110,12 @@ export class DataComponent extends AppComponentBase implements OnInit {
   }
 
   filterAll() {
-    // Clone the array using slice()
-    console.log(this.tahun);
     const clonedListPenyakit = this.listPenyakit.slice();
-
-    const filteredData = clonedListPenyakit
-      .map((item) => {
-        const filteredListTable = item.list_table
-          .filter(
-            (row) =>
-              this.daerah.includes(row.daerah_name) &&
-              this.penyakit.includes(item.penyakit_name)
-          )
-          .map((row) => {
-            const filteredRow = { daerah_name: row.daerah_name };
-            this.tahun.forEach((year) => {
-              if (row.hasOwnProperty(year)) {
-                filteredRow[year] = row[year];
-              }
-            });
-            return filteredRow;
-          });
-
-        if (filteredListTable.length > 0) {
-          return {
-            penyakit_name: item.penyakit_name,
-            list_table: filteredListTable,
-          };
-        }
-
-        return null;
-      })
-      .filter((item) => item !== null);
+    let filteredData = [];
+    if (this.pilihan == 1)
+      filteredData = this.filterByPenyakit(clonedListPenyakit);
+    if (this.pilihan == 2)
+      filteredData = this.filterByDaerah(clonedListPenyakit);
 
     this.listPenyakitTemp = filteredData;
     console.log("filter", filteredData);
@@ -158,9 +134,15 @@ export class DataComponent extends AppComponentBase implements OnInit {
       .subscribe(
         (res) => {
           console.log("hasil----", res);
-          let index = this.listPenyakitTemp.findIndex(
-            (e) => e.penyakit_name == param.penyakit_name
-          );
+          let index = 0;
+          if (this.pilihan == 1)
+            index = this.listPenyakitTemp.findIndex(
+              (e) => e.penyakit_name == param.penyakit_name
+            );
+          if (this.pilihan == 2)
+            index = this.listPenyakitTemp.findIndex(
+              (e) => e.daerah_name == param.daerah_name
+            );
           this.listPenyakitTemp[index].list_table = res;
           // this.listPenyakitTemp = this.listPenyakit;
           // this.listPenyakit = [...this.listPenyakit];
@@ -189,5 +171,110 @@ export class DataComponent extends AppComponentBase implements OnInit {
     localStorage.setItem("dataPie", JSON.stringify(param.data));
     localStorage.setItem("titlePie", param.title);
     this._router.navigate(["diagram"]);
+  }
+
+  getListDaerah(param?) {
+    this.pilihan = 2;
+    this.resetFilter();
+    let model = param;
+    this.loading = true;
+    this._mainService
+      .getMain("daerah", "penyakit", "tahun")
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.listPenyakit = [];
+          let result = data;
+
+          let mappedArray = result.map((item) => {
+            let mappedItem = {
+              daerah_name: item.daerah_name,
+              list_table: item.list_baris.map((daerah) => {
+                let mappedDaerah = {
+                  penyakit_name: daerah.penyakit_name,
+                };
+                daerah.list_kolom.forEach((tahun) => {
+                  mappedDaerah[tahun.tahun] = tahun.jumlah;
+                });
+                return mappedDaerah;
+              }),
+            };
+            return mappedItem;
+          });
+          this.listPenyakit = mappedArray;
+          this.listPenyakitTemp = mappedArray;
+          console.log(this.listPenyakit);
+        },
+        (error) => {
+          this.showMessage("Eror!", error.message, "error");
+        }
+      );
+  }
+
+  filterByPenyakit(clonedListPenyakit) {
+    const filtered = clonedListPenyakit
+      .map((item) => {
+        const filteredListTable = item.list_table
+          .filter(
+            (row) =>
+              this.daerah.includes(row.daerah_name) &&
+              this.penyakit.includes(item.penyakit_name)
+          )
+          .map((row) => {
+            const filteredRow = { daerah_name: row.daerah_name };
+            this.tahun.forEach((year) => {
+              if (row.hasOwnProperty(year)) {
+                filteredRow[year] = row[year];
+              }
+            });
+            return filteredRow;
+          });
+
+        if (filteredListTable.length > 0) {
+          return {
+            penyakit_name: item.penyakit_name,
+            list_table: filteredListTable,
+          };
+        }
+
+        return null;
+      })
+      .filter((item) => item !== null);
+    return filtered;
+  }
+  filterByDaerah(clonedListPenyakit) {
+    const filtered = clonedListPenyakit
+      .map((item) => {
+        const filteredListTable = item.list_table
+          .filter(
+            (row) =>
+              this.daerah.includes(item.daerah_name) &&
+              this.penyakit.includes(row.penyakit_name)
+          )
+          .map((row) => {
+            const filteredRow = { penyakit_name: row.penyakit_name };
+            this.tahun.forEach((year) => {
+              if (row.hasOwnProperty(year)) {
+                filteredRow[year] = row[year];
+              }
+            });
+            return filteredRow;
+          });
+
+        if (filteredListTable.length > 0) {
+          return {
+            daerah_name: item.daerah_name,
+            list_table: filteredListTable,
+          };
+        }
+
+        return null;
+      })
+      .filter((item) => item !== null);
+    return filtered;
   }
 }

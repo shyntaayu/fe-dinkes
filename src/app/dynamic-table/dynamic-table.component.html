@@ -5,7 +5,8 @@
             <i class="material-icons">settings_applications</i>
         </div>
         <div class="card-container">
-            <h4 class="card-title" style="flex: 1;">{{header.penyakit_name}}</h4>
+            <h4 *ngIf="pilihan==1" class="card-title" style="flex: 1;">{{header.penyakit_name}}</h4>
+            <h4 *ngIf="pilihan==2" class="card-title" style="flex: 1;">{{header.daerah_name}}</h4>
             <div class="card-button">
                 <button mat-raised-button *ngIf="type==1" class="btn btn-rose"
                     (click)="proses(i,header)">Clustering</button>
@@ -21,14 +22,16 @@
     <div class="card-body table-responsive">
         <table class="table table-hover">
             <thead class="text-mute">
-                <th>Daerah Name</th>
+                <th *ngIf="pilihan==1">Daerah Name</th>
+                <th *ngIf="pilihan==2">Penyakit Name</th>
                 <th *ngFor="let tahun of years">{{ tahun }}</th>
                 <!-- <th>Cluster</th> -->
             </thead>
             <tbody>
                 <tr *ngFor="let item of header.list_table"
                     [ngClass]="item.clusterLevel == 'tinggi' ? 'bg-tinggi' : item.clusterLevel == 'rendah' ? 'bg-rendah' : item.clusterLevel == 'sedang' ? 'bg-sedang':''">
-                    <td>{{ item.daerah_name }}</td>
+                    <td *ngIf="pilihan==1">{{ item.daerah_name }}</td>
+                    <td *ngIf="pilihan==2">{{ item.penyakit_name }}</td>
                     <td *ngFor="let tahun of years">{{ item[tahun] }}</td>
                     <!-- <td>{{item.cluster}}</td> -->
                 </tr>
