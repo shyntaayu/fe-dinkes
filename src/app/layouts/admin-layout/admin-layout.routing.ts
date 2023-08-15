@@ -16,6 +16,8 @@ import { PieClusterComponent } from "app/pie-cluster/pie-cluster.component";
 import { InputDataComponent } from "app/input-data/input-data.component";
 import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
 import { AuthGuard } from "app/helpers/auth.guard";
+import { UserComponent } from "app/master/user/user.component";
+import { RoleComponent } from "app/master/role/role.component";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -112,6 +114,18 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "upload-bulk",
     component: BulkInputComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1] },
+  },
+  {
+    path: "user",
+    component: UserComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1] },
+  },
+  {
+    path: "role",
+    component: RoleComponent,
     canActivate: [AuthGuard],
     data: { permission: [1] },
   },

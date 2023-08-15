@@ -36,6 +36,26 @@ import { PieClusterComponent } from "app/pie-cluster/pie-cluster.component";
 import { AccordionModule } from "primeng/accordion";
 import { InputDataComponent } from "app/input-data/input-data.component";
 import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
+import { ConfirmationService, MessageService } from "primeng/api";
+import { UserService } from "app/services/user.service";
+import { CalendarModule } from "primeng/calendar";
+import { SliderModule } from "primeng/slider";
+import { ContextMenuModule } from "primeng/contextmenu";
+import { DialogModule } from "primeng/dialog";
+import { ButtonModule } from "primeng/button";
+import { DropdownModule } from "primeng/dropdown";
+import { ProgressBarModule } from "primeng/progressbar";
+import { InputTextModule } from "primeng/inputtext";
+import { FileUploadModule } from "primeng/fileupload";
+import { ToolbarModule } from "primeng/toolbar";
+import { RatingModule } from "primeng/rating";
+import { RadioButtonModule } from "primeng/radiobutton";
+import { InputNumberModule } from "primeng/inputnumber";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { InputTextareaModule } from "primeng/inputtextarea";
+import { ToastModule } from "primeng/toast";
+import { UserComponent } from "app/master/user/user.component";
+import { RoleComponent } from "app/master/role/role.component";
 
 @NgModule({
   imports: [
@@ -58,6 +78,25 @@ import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
     TooltipModule,
     ChartModule,
     AccordionModule,
+    TableModule,
+    CalendarModule,
+    SliderModule,
+    DialogModule,
+    ContextMenuModule,
+    DropdownModule,
+    ButtonModule,
+    ToastModule,
+    InputTextModule,
+    ProgressBarModule,
+    HttpClientModule,
+    FileUploadModule,
+    ToolbarModule,
+    RatingModule,
+    FormsModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
   ],
   declarations: [
     DashboardComponent,
@@ -77,7 +116,14 @@ import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
     PieClusterComponent,
     BulkInputComponent,
     InputDataComponent,
+    UserComponent,
+    RoleComponent,
   ],
-  providers: [PenyakitService],
+  providers: [
+    PenyakitService,
+    UserService,
+    MessageService,
+    ConfirmationService,
+  ],
 })
 export class AdminLayoutModule {}

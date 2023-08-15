@@ -1,17 +1,19 @@
 <div class="card" *ngFor="let header of data;let i = index">
     <div class="card-header card-header-icon card-header-mute">
-        <div class="card-icon" (click)="proses(i)" style="cursor: pointer;"
+        <div class="card-icon" (click)="proses(i,header)" style="cursor: pointer;"
             [pTooltip]="type==1?'Proses Clustering':'Proses Prediksi'" tooltipPosition="top">
             <i class="material-icons">settings_applications</i>
         </div>
         <div class="card-container">
             <h4 class="card-title" style="flex: 1;">{{header.penyakit_name}}</h4>
             <div class="card-button">
-                <button mat-raised-button *ngIf="type==1" class="btn btn-rose" (click)="proses(i)">Clustering</button>
-                <button mat-raised-button *ngIf="type==2" class="btn btn-rose" (click)="proses(i)">Prediksi</button>
-                <button mat-raised-button *ngIf="type==1" class="btn btn-default" (click)="diagram(i)">Lihat
+                <button mat-raised-button *ngIf="type==1" class="btn btn-rose"
+                    (click)="proses(i,header)">Clustering</button>
+                <button mat-raised-button *ngIf="type==2" class="btn btn-rose"
+                    (click)="proses(i,header)">Prediksi</button>
+                <button mat-raised-button *ngIf="type==1" class="btn btn-default" (click)="diagram(i,header)">Lihat
                     Diagram</button>
-                <button mat-raised-button *ngIf="type==2" class="btn btn-default" (click)="diagram(i)">Lihat
+                <button mat-raised-button *ngIf="type==2" class="btn btn-default" (click)="diagram(i,header)">Lihat
                     Diagram</button>
             </div>
         </div>

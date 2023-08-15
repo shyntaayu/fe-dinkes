@@ -49,6 +49,18 @@ export const ROUTES: RouteInfo[] = [
     icon: "publish",
     class: "",
   },
+  {
+    path: "/user",
+    title: "Master User",
+    icon: "badge",
+    class: "",
+  },
+  {
+    path: "/role",
+    title: "Master Role",
+    icon: "lock",
+    class: "",
+  },
   // { path: "/user-profile", title: "User Profile", icon: "person", class: "" },
   // {
   //   path: "/table-list",
@@ -86,13 +98,12 @@ export const menu: AppMenuItem[] = [
   new AppMenuItem("Diagram Cluster", "1", "pie_chart", "/diagram"),
   new AppMenuItem("Input Data", "2", "input", "/input"),
   new AppMenuItem("Upload Bulk Data", "1", "publish", "/upload-bulk"),
-  new AppMenuItem("Transkrip Nilai", "1", "school", "/transkrip-nilai"),
-  new AppMenuItem("Input Nilai", "1,8", "edit_note", "/add-nilai"),
-  new AppMenuItem("Paket KRS", "1", "post_add", "/paket-krs"),
+  // new AppMenuItem("Transkrip Nilai", "1", "school", "/transkrip-nilai"),
+  // new AppMenuItem("Input Nilai", "1,8", "edit_note", "/add-nilai"),
+  // new AppMenuItem("Paket KRS", "1", "post_add", "/paket-krs"),
   new AppMenuItem("Master", "1", "apps", "", [
-    new AppMenuItem("User", "1", "badge", "/master/user"),
-    new AppMenuItem("Role", "1", "lock", "/master/role"),
-    new AppMenuItem("Mahasiswa", "1", "lock", "/master/mahasiswa"),
+    new AppMenuItem("User", "1", "badge", "/user"),
+    new AppMenuItem("Role", "1", "lock", "/role"),
   ]),
 ];
 
@@ -118,7 +129,7 @@ export class SidebarComponent implements OnInit {
     console.log("menuItems", this.authenticationService.userValue["role_id"]);
     this.menuNew = menu;
     let a = JSON.parse(this.cookieService.get("userMe"));
-    this.userFromApi = a ? a.username : null;
+    this.userFromApi = a ? a.user_name : null;
   }
   isMobileMenu() {
     if ($(window).width() > 991) {

@@ -10,8 +10,10 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
 
   chartOptions: any;
   title = "";
+  tahun = "";
   dataTable = [];
   dataPieAr = [];
+  tahunAr = [];
 
   constructor() {
     let dataPie = localStorage.getItem("dataPie");
@@ -19,16 +21,21 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
     if (dataPie != undefined || dataPie != null || dataPie != "") {
       this.dataPieAr = JSON.parse(dataPie);
       const clusters = {};
-
       this.dataPieAr.forEach((item) => {
         const clusterLevel = item.clusterLevel;
         clusters[clusterLevel] = clusters[clusterLevel]
           ? clusters[clusterLevel] + 1
           : 1;
       });
+      const sorted_object = Object.keys(clusters)
+        .sort()
+        .reduce((acc, key) => {
+          acc[key] = clusters[key];
+          return acc;
+        }, {});
 
-      const labels = Object.keys(clusters);
-      const dataValues = Object.values(clusters);
+      const labels = Object.keys(sorted_object);
+      const dataValues = Object.values(sorted_object);
 
       const restructuredData = {
         labels: labels,
@@ -51,6 +58,8 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.mappingDataTable();
+    this.tahunAr = this.getTahun(this.dataPieAr);
+    this.tahun = this.tahunAr.join(", ");
   }
 
   mappingDataTable() {
@@ -77,5 +86,17 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
 
     this.dataTable = restructuredData;
     console.log(this.dataTable);
+  }
+
+  getTahun(dataArray) {
+    const years = dataArray.reduce((result, obj) => {
+      const objKeys = Object.keys(obj).filter((key) => /^\d{4}$/.test(key));
+      result.push(...objKeys);
+      return result;
+    }, []);
+
+    const uniqueYears = [...new Set(years)];
+
+    return uniqueYears;
   }
 }

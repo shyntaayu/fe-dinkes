@@ -1,6 +1,8 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { User } from "app/model/user";
 import { Users } from "app/model/users";
+import { DaerahService } from "app/services/daerah.service";
+import { RoleService } from "app/services/role.service";
 import { UserService } from "app/services/user.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { AppComponentBase } from "shared/app-component-base";
@@ -20,17 +22,52 @@ export class UserComponent extends AppComponentBase implements OnInit {
   selectedUsers: Users;
 
   submitted: boolean;
+  listRole = [];
+  listDaerah = [];
+  loading = true;
 
   constructor(
     private userservice: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private injector: Injector
+    private injector: Injector,
+    private _daerahService: DaerahService,
+    private _roleService: RoleService
   ) {
     super(injector);
   }
 
   ngOnInit() {
+    this.getUser();
+    this.getDaerah();
+    this.getRole();
+  }
+
+  getDaerah() {
+    this._daerahService.getAllDaerah().subscribe(
+      (data) => {
+        console.log(data);
+        this.listDaerah = data;
+      },
+      (err) => {
+        console.error(err);
+        this.showMessage("Eror!", err.message, "error");
+      }
+    );
+  }
+  getRole() {
+    this._roleService.getAllRole().subscribe(
+      (data) => {
+        console.log(data);
+        this.listRole = data;
+      },
+      (err) => {
+        console.error(err);
+        this.showMessage("Eror!", err.message, "error");
+      }
+    );
+  }
+  getUser() {
     this.userservice.getAllUser().subscribe(
       (data) => {
         console.log(data);
@@ -98,6 +135,7 @@ export class UserComponent extends AppComponentBase implements OnInit {
   }
 
   saveUser() {
+    console.log(this.user);
     // this.submitted = true;
     // if (this.user.name.trim()) {
     //   if (this.user.id) {

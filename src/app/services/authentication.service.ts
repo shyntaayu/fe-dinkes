@@ -49,7 +49,6 @@ export class AuthenticationService extends AppComponentBase {
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           // localStorage.setItem('userMe', JSON.stringify(user));
-          console.log(user);
           if (!user.success) {
             // this.showNotification("top", "right", user.msg, "danger");
             this.showMessage("Eror!", user.msg, "error");

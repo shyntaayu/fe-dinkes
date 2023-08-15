@@ -27,11 +27,6 @@ const routes: Routes = [
             (m) => m.AdminLayoutModule
           ),
       },
-      {
-        path: "master",
-        loadChildren: () =>
-          import("./master/master.module").then((m) => m.MasterModule),
-      },
     ],
   },
 ];

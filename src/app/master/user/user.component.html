@@ -10,12 +10,6 @@
                     <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
                         (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
                 </ng-template>
-
-                <ng-template pTemplate="right">
-                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                        chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload>
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
-                </ng-template>
             </p-toolbar>
 
             <p-table #dt1 [value]="users" [rows]="10" [paginator]="true"
@@ -74,60 +68,37 @@
         <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
+
                 <div class="p-field">
-                    <label for="user_id">Name</label>
-                    <input type="text" pInputText id="user_id" [(ngModel)]="user.name" required autofocus />
-                    <small class="p-invalid" *ngIf="submitted && !user.name">Name is required.</small>
+                    <label for="user_name">Name</label>
+                    <input type="text" pInputText id="user_name" [(ngModel)]="user.user_name" required autofocus />
+                    <small class="p-invalid" *ngIf="submitted && !user.user_name">Name is required.</small>
                 </div>
                 <div class="p-field">
-                    <label for="description">Description</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="user.description" required rows="3"
-                        cols="20"></textarea>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" pInputText [(ngModel)]="user.password" required />
+                    <small class="p-invalid" *ngIf="submitted && !user.password">Password is required.</small>
                 </div>
 
                 <div class="p-field">
-                    <label class="p-mb-3">Category</label>
-                    <div class="p-formgrid p-grid">
-                        <div class="p-field-radiobutton p-col-6">
-                            <p-radioButton id="category1" name="daerah_name" value="Accessories"
-                                [(ngModel)]="user.category"></p-radioButton>
-                            <label for="category1">Accessories</label>
-                        </div>
-                        <div class="p-field-radiobutton p-col-6">
-                            <p-radioButton id="category2" name="daerah_name" value="Clothing"
-                                [(ngModel)]="user.category"></p-radioButton>
-                            <label for="category2">Clothing</label>
-                        </div>
-                        <div class="p-field-radiobutton p-col-6">
-                            <p-radioButton id="category3" name="daerah_name" value="Electronics"
-                                [(ngModel)]="user.category"></p-radioButton>
-                            <label for="category3">Electronics</label>
-                        </div>
-                        <div class="p-field-radiobutton p-col-6">
-                            <p-radioButton id="category4" name="daerah_name" value="Fitness"
-                                [(ngModel)]="user.category"></p-radioButton>
-                            <label for="category4">Fitness</label>
-                        </div>
-                    </div>
+                    <label for="daerah">Daerah</label>
+                    <p-dropdown [options]="listDaerah" [(ngModel)]="user.daerah_id" placeholder="Pilih Daerah" required
+                        optionLabel="daerah_name" [showClear]="true" appendTo="body"></p-dropdown>
+                    <small class="p-invalid" *ngIf="submitted && !user.daerah_id">Daerah is required.</small>
                 </div>
 
-                <div class="p-formgrid p-grid">
-                    <div class="p-field p-col">
-                        <label for="user_name">Price</label>
-                        <p-inputNumber id="user_name" [(ngModel)]="user.price" mode="currency" currency="USD"
-                            locale="en-US"></p-inputNumber>
-                    </div>
-                    <div class="p-field p-col">
-                        <label for="quantity">Quantity</label>
-                        <p-inputNumber id="quantity" [(ngModel)]="user.quantity"></p-inputNumber>
-                    </div>
+                <div class="p-field">
+                    <label for="role">Role</label>
+                    <p-dropdown [options]="listRole" [(ngModel)]="user.role_id" placeholder="Pilih Role" required
+                        optionLabel="role_name" [showClear]="true" appendTo="body"></p-dropdown>
+                    <small class="p-invalid" *ngIf="submitted && !user.role_id">Role is required.</small>
                 </div>
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" disabled
                     (click)="saveUser()"></button>
             </ng-template>
         </p-dialog>

@@ -42,7 +42,14 @@ export class DataComponent extends AppComponentBase implements OnInit {
     this.getListPenyakit(this.profileForm.value);
   }
 
+  resetFilter() {
+    this.tahun = [];
+    this.daerah = [];
+    this.penyakit = [];
+  }
+
   getListPenyakit(param?) {
+    this.resetFilter();
     let model = param;
     this.loading = true;
     this._mainService
@@ -104,39 +111,38 @@ export class DataComponent extends AppComponentBase implements OnInit {
     // Clone the array using slice()
     console.log(this.tahun);
     const clonedListPenyakit = this.listPenyakit.slice();
-    const filteredData = clonedListPenyakit.map((item) => {
-      const filteredTable = item.list_table.filter((row) => {
-        return (
-          // this.daerah.includes(row.daerah_name) &&
-          // this.penyakit.includes(item.penyakit_name) &&
-          Object.keys(row)
-            .filter((key) => this.tahun.includes(key))
-            .reduce((obj, key) => {
-              obj[key] = obj[key];
-              return obj;
-            }, {})
-        );
-      });
 
-      return { penyakit_name: item.penyakit_name, list_table: filteredTable };
-    });
+    const filteredData = clonedListPenyakit
+      .map((item) => {
+        const filteredListTable = item.list_table
+          .filter(
+            (row) =>
+              this.daerah.includes(row.daerah_name) &&
+              this.penyakit.includes(item.penyakit_name)
+          )
+          .map((row) => {
+            const filteredRow = { daerah_name: row.daerah_name };
+            this.tahun.forEach((year) => {
+              if (row.hasOwnProperty(year)) {
+                filteredRow[year] = row[year];
+              }
+            });
+            return filteredRow;
+          });
 
-    // const filteredData = clonedListPenyakit.map((item) => ({
-    //   penyakit_name: item.penyakit_name,
-    //   list_table: item.list_table.filter((data) => {
-    //     Object.keys(data)
-    //       .filter((key) => this.tahun.includes(key))
-    //       .reduce((obj, key) => {
-    //         obj[key] = obj[key];
-    //         return obj;
-    //       }, {});
-    //     // this.daerah.includes(obj.daerah_name) &&
-    //     // this.penyakit.includes(item.penyakit_name)
-    //   }),
-    // }));
+        if (filteredListTable.length > 0) {
+          return {
+            penyakit_name: item.penyakit_name,
+            list_table: filteredListTable,
+          };
+        }
+
+        return null;
+      })
+      .filter((item) => item !== null);
 
     this.listPenyakitTemp = filteredData;
-    console.log("filter", this.listPenyakitTemp);
+    console.log("filter", filteredData);
   }
 
   clusterProcess(param) {
@@ -152,9 +158,12 @@ export class DataComponent extends AppComponentBase implements OnInit {
       .subscribe(
         (res) => {
           console.log("hasil----", res);
-          this.listPenyakit[param.idx].list_table = res;
-          this.listPenyakitTemp = this.listPenyakit;
-          this.listPenyakit = [...this.listPenyakit];
+          let index = this.listPenyakitTemp.findIndex(
+            (e) => e.penyakit_name == param.penyakit_name
+          );
+          this.listPenyakitTemp[index].list_table = res;
+          // this.listPenyakitTemp = this.listPenyakit;
+          // this.listPenyakit = [...this.listPenyakit];
           this.listPenyakitTemp = [...this.listPenyakitTemp];
 
           console.log("listPenyakit", this.listPenyakitTemp);

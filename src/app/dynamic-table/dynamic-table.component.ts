@@ -48,41 +48,18 @@ export class DynamicTableComponent
     }
   }
 
-  proses(index) {
+  proses(index, header) {
     this.prosesClustering.emit({
+      penyakit_name: header.penyakit_name,
       idx: index,
       data: this.data[index].list_table,
     });
   }
 
-  diagram(index) {
-    // if (this.type == 1) {
-    //   if (this.data[index].list_table.hasOwnProperty("cluster")) {
-    //     this.prosesEmit(index);
-    //   } else {
-    //     this.showMessage(
-    //       "Eror!",
-    //       "Silahkan lakukan proses klustering dulu",
-    //       "error"
-    //     );
-    //   }
-    // } else {
-    //   if (this.data[index].list_table.hasOwnProperty("2022")) {
-    //     this.prosesEmit(index);
-    //   } else {
-    //     this.showMessage(
-    //       "Eror!",
-    //       "Silahkan lakukan proses prediksi dulu",
-    //       "error"
-    //     );
-    //   }
-    // }
-    this.prosesEmit(index);
-  }
-
-  prosesEmit(index) {
+  diagram(index, header) {
     this.prosesDiagram.emit({
       idx: index,
+      penyakit_name: header.penyakit_name,
       data: this.data[index].list_table,
       title: this.data[index].penyakit_name,
     });
