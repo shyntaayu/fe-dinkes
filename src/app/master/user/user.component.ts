@@ -27,7 +27,7 @@ export class UserComponent extends AppComponentBase implements OnInit {
   loading = true;
 
   constructor(
-    private userservice: UserService,
+    private _userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private injector: Injector,
@@ -68,7 +68,7 @@ export class UserComponent extends AppComponentBase implements OnInit {
     );
   }
   getUser() {
-    this.userservice.getAllUser().subscribe(
+    this._userService.getAllUser().subscribe(
       (data) => {
         console.log(data);
         this.users = data;
@@ -92,16 +92,23 @@ export class UserComponent extends AppComponentBase implements OnInit {
       header: "Confirm",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.users = this.users.filter(
-          (val) => !this.selectedUsers.includes(val)
-        );
-        this.selectedUsers = null;
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "Users Deleted",
-          life: 3000,
+        this.selectedUsers.map((user) => {
+          this._userService.delete(user.user_id).subscribe(
+            (data) => {
+              this.showMessage(
+                "Selected user was deleted",
+                undefined,
+                "success"
+              );
+              this.getUser();
+            },
+            (err) => {
+              console.error(err);
+              this.showMessage("Eror!", err.message, "error");
+            }
+          );
         });
+        this.selectedUsers = null;
       },
     });
   }
@@ -112,21 +119,24 @@ export class UserComponent extends AppComponentBase implements OnInit {
   }
 
   deleteUser(user: User) {
-    // this.confirmationService.confirm({
-    //   message: "Are you sure you want to delete " + user.name + "?",
-    //   header: "Confirm",
-    //   icon: "pi pi-exclamation-triangle",
-    //   accept: () => {
-    //     this.users = this.users.filter((val) => val.id !== user.id);
-    //     this.user = {};
-    //     this.messageService.add({
-    //       severity: "success",
-    //       summary: "Successful",
-    //       detail: "User Deleted",
-    //       life: 3000,
-    //     });
-    //   },
-    // });
+    this.confirmationService.confirm({
+      message: "Are you sure you want to delete " + user.user_name + "?",
+      header: "Confirm",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this._userService.delete(user.user_id).subscribe(
+          (data) => {
+            this.showMessage(data.message, undefined, "success");
+            this.getUser();
+          },
+          (err) => {
+            console.error(err);
+            this.showMessage("Eror!", err.message, "error");
+          }
+        );
+        this.user = {};
+      },
+    });
   }
 
   hideDialog() {
@@ -136,31 +146,40 @@ export class UserComponent extends AppComponentBase implements OnInit {
 
   saveUser() {
     console.log(this.user);
-    // this.submitted = true;
-    // if (this.user.name.trim()) {
-    //   if (this.user.id) {
-    //     this.users[this.findIndexById(this.user.id)] = this.user;
-    //     this.messageService.add({
-    //       severity: "success",
-    //       summary: "Successful",
-    //       detail: "User Updated",
-    //       life: 3000,
-    //     });
-    //   } else {
-    //     this.user.id = this.createId();
-    //     this.user.image = "user-placeholder.svg";
-    //     this.users.push(this.user);
-    //     this.messageService.add({
-    //       severity: "success",
-    //       summary: "Successful",
-    //       detail: "User Created",
-    //       life: 3000,
-    //     });
-    //   }
-    //   this.users = [...this.users];
-    //   this.userDialog = false;
-    //   this.user = {};
-    // }
+    this.submitted = true;
+    delete this.user.email;
+    if (this.user.user_name.trim()) {
+      if (this.user.user_id) {
+        if (this.user.password == 12345) delete this.user.password;
+        this._userService.update(this.user).subscribe(
+          (data) => {
+            this.showMessage(data.message, undefined, "success");
+            this.afterCreateUpdate();
+          },
+          (err) => {
+            console.error(err);
+            this.showMessage("Eror!", err.message, "error");
+          }
+        );
+      } else {
+        this._userService.register(this.user).subscribe(
+          (data) => {
+            this.showMessage(data.message, undefined, "success");
+            this.afterCreateUpdate();
+          },
+          (err) => {
+            console.error(err);
+            this.showMessage("Eror!", err.message, "error");
+          }
+        );
+      }
+    }
+  }
+
+  afterCreateUpdate() {
+    this.getUser();
+    this.userDialog = false;
+    this.user = {};
   }
 
   findIndexById(id: string): number {

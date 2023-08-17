@@ -277,4 +277,87 @@ export class DataComponent extends AppComponentBase implements OnInit {
       .filter((item) => item !== null);
     return filtered;
   }
+
+  getListTahun(param?) {
+    this.pilihan = 3;
+    this.resetFilter();
+    let model = param;
+    this.loading = true;
+    this._mainService
+      .getMain("penyakit", "daerah", "tahun")
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.listPenyakit = [];
+          let result = data;
+          console.log(result);
+          let mappedArray = result.map((item) => {
+            let mappedItem = {
+              penyakit_name: item.penyakit_name,
+              list_table: item.list_baris.map((daerah) => {
+                let mappedDaerah = {
+                  daerah_name: daerah.daerah_name,
+                };
+                daerah.list_kolom.forEach((tahun) => {
+                  mappedDaerah[tahun.tahun] = tahun.jumlah;
+                });
+                return mappedDaerah;
+              }),
+            };
+            return mappedItem;
+          });
+          this.listPenyakit = mappedArray;
+          this.listPenyakitTemp = mappedArray;
+
+          let restructuredData = [];
+
+          mappedArray.forEach((item) => {
+            item.list_table.forEach((row) => {
+              Object.keys(row).forEach((year) => {
+                if (year !== "daerah_name") {
+                  let existingYearEntry = restructuredData.find(
+                    (entry) => entry.tahun === year
+                  );
+
+                  if (!existingYearEntry) {
+                    existingYearEntry = { tahun: year, list_penyakit: [] };
+                    restructuredData.push(existingYearEntry);
+                  }
+
+                  let existingPenyakitEntry =
+                    existingYearEntry.list_penyakit.find(
+                      (entry) => entry.penyakit_name === item.penyakit_name
+                    );
+
+                  if (!existingPenyakitEntry) {
+                    existingPenyakitEntry = {
+                      penyakit_name: item.penyakit_name,
+                      list_table: [],
+                    };
+                    existingYearEntry.list_penyakit.push(existingPenyakitEntry);
+                  }
+
+                  const newRow = {
+                    [year]: row[year],
+                    daerah_name: row.daerah_name,
+                  };
+                  existingPenyakitEntry.list_table.push(newRow);
+                }
+              });
+            });
+          });
+
+          console.log(restructuredData);
+          // this.clusterProcess(restructuredData)
+          // console.log(this.listPenyakit);
+        },
+        (error) => {
+          this.showMessage("Eror!", error.message, "error");
+        }
+      );
+  }
 }

@@ -96,7 +96,7 @@ export const menu: AppMenuItem[] = [
   new AppMenuItem("Prediksi", "1", "cast", "/prediksi"),
   new AppMenuItem("Grafik", "1", "show_chart", "/grafik"),
   new AppMenuItem("Diagram Cluster", "1", "pie_chart", "/diagram"),
-  new AppMenuItem("Input Data", "2", "input", "/input"),
+  new AppMenuItem("Input Data", "1,2", "input", "/input"),
   new AppMenuItem("Upload Bulk Data", "1", "publish", "/upload-bulk"),
   // new AppMenuItem("Transkrip Nilai", "1", "school", "/transkrip-nilai"),
   // new AppMenuItem("Input Nilai", "1,8", "edit_note", "/add-nilai"),

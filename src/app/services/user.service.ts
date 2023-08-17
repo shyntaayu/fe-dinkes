@@ -35,12 +35,6 @@ export class UserService {
   //     .pipe(catchError(this.errorMgmt));
   // }
 
-  // // Delete sanitasi
-  // deleteSanitasi(id): Observable<any> {
-  //   var API_URL = `${this.appConfig.apiUrlKrs}/master/sanitasi/${id}`;
-  //   return this.http.delete(API_URL).pipe(catchError(this.errorMgmt));
-  // }
-
   // getAllTahun(): Observable<TahunAkademik> {
   //   return this.http.get<TahunAkademik>(
   //     `${this.appConfig.apiUrlKrs}/dropdown/tahun`
@@ -194,11 +188,15 @@ export class UserService {
   //   );
   // }
 
-  // getAllKaprodi(): Observable<Kaprodi> {
-  //   return this.http.get<Kaprodi>(
-  //     `${this.appConfig.apiUrlKrs}/dropdown/kaprodi`
-  //   );
-  // }
+  delete(id): Observable<any> {
+    var API_URL = `${this.appConfig.apiUrl}/user/${id}`;
+    return this.http.delete(API_URL).pipe(catchError(this.errorMgmt));
+  }
+
+  update(data: User): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/user/${data.user_id}`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
 
   register(data: User): Observable<any> {
     let API_URL = `${this.appConfig.apiUrl}/user/createone`;

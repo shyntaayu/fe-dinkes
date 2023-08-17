@@ -23,7 +23,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a mat-button class="nav-link" href="#settings" data-toggle="tab">
+                                        <a mat-button class="nav-link" href="#settings" (click)="getListTahun()"
+                                            data-toggle="tab">
                                             <i class="material-icons">cloud</i> Tahun
                                             <div class="ripple-container"></div>
                                         </a>
@@ -117,89 +118,35 @@
                                     (prosesDiagram)="diagramProcess($event)"></app-dynamic-table>
                             </div>
                             <div class="tab-pane" id="settings">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" value="">
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                            <td class="td-actions text-right">
-                                                <button mat-raised-button type="button" matTooltip="Edit Task"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                                <button mat-raised-button type="button" matTooltip="Remove"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            checked>
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Flooded: One year later, assessing what was lost and what was found when
-                                                a ravaging rain swept through metro Detroit
-                                            </td>
-                                            <td class="td-actions text-right">
-                                                <button mat-raised-button type="button" matTooltip="Edit Task"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                                <button mat-raised-button type="button" matTooltip="Remove"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            checked>
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                            <td class="td-actions text-right">
-                                                <button mat-raised-button type="button" matTooltip="Edit Task"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                                <button mat-raised-button type="button" matTooltip="Remove"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
+                                        <div class="col-md-9 col-9">
+                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
+                                                (ngModelChange)="filterAll()">
+                                            </tahun-ddl>
+                                        </div>
+                                    </div>
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Penyakit</label>
+                                        <div class="col-md-9 col-9">
+                                            <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit"
+                                                (ngModelChange)="filterAll()">
+                                            </penyakit-ddl>
+                                        </div>
+                                    </div>
+                                    <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
+                                        [disabled]="!profileForm.valid" [loading]="loading">Cari</button> -->
+                                    <div class="clearfix"></div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button mat-raised-button type="submit" class="btn btn-rose pull-right"
+                                            (click)="getListTahun()" [loading]="loading">Cari Data</button>
+                                    </div>
+                                </div>
+                                <app-dynamic-pie (prosesClustering)="clusterProcess($event)"
+                                    (prosesDiagram)="diagramProcess($event)"></app-dynamic-pie>
                             </div>
                         </div>
                     </div>
