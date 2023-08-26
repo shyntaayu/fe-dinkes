@@ -310,8 +310,10 @@ export class DataComponent extends AppComponentBase implements OnInit {
             };
             return mappedItem;
           });
-          this.listPenyakit = mappedArray;
-          this.listPenyakitTemp = mappedArray;
+
+          let a = this.filterByPenyakit(mappedArray);
+          this.listPenyakit = a;
+          this.listPenyakitTemp = a;
 
           let restructuredData = [];
 

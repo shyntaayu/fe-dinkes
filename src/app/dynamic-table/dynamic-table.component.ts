@@ -32,6 +32,7 @@ export class DynamicTableComponent
   }
   ngOnInit(): void {
     // throw new Error("Method not implemented.");
+    console.log("data-table", this.data);
   }
 
   ngOnChanges(changes: SimpleChanges) {

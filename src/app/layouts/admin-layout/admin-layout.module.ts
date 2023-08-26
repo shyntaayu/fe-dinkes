@@ -57,6 +57,7 @@ import { ToastModule } from "primeng/toast";
 import { UserComponent } from "app/master/user/user.component";
 import { RoleComponent } from "app/master/role/role.component";
 import { DynamicPieComponent } from "app/dynamic-pie/dynamic-pie.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @NgModule({
   imports: [
@@ -98,6 +99,7 @@ import { DynamicPieComponent } from "app/dynamic-pie/dynamic-pie.component";
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    MatDatepickerModule,
   ],
   declarations: [
     DashboardComponent,
