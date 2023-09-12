@@ -61,10 +61,37 @@ export class DynamicTableComponent
   }
 
   diagram(index, header) {
+    if (
+      this.type == 1 &&
+      header.list_table.length > 0 &&
+      header.list_table[0].hasOwnProperty("cluster")
+    ) {
+      this.doDiagram(index, header);
+    } else if (
+      this.type == 2 &&
+      header.list_table.length > 0 &&
+      header.list_table[0].hasOwnProperty("2022")
+    ) {
+      this.doDiagram(index, header);
+    } else {
+      let proses = this.type == 1 ? "clustering" : "prediksi";
+      this.showMessage(
+        "Peringatan!",
+        "Silakan klik tombol " + proses + " terlebih dahulu",
+        "warning"
+      );
+    }
+  }
+  doDiagram(index, header) {
+    localStorage.setItem("pilihan", this.pilihan);
+    console.log(header);
     let obj = {
       idx: index,
       data: this.data[index].list_table,
-      title: this.data[index].penyakit_name,
+      title:
+        this.pilihan == 1
+          ? this.data[index].penyakit_name
+          : this.data[index].daerah_name,
     };
     if (this.pilihan == 1) obj["penyakit_name"] = header.penyakit_name;
     if (this.pilihan == 2) obj["daerah_name"] = header.daerah_name;

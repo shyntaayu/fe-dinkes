@@ -13,11 +13,17 @@ export class DynamicPieComponent implements OnInit, AfterViewInit {
   dataPieAr = [];
   tahunAr = [];
   chartOptions: any;
+  pilihan;
+  pilihanText = "";
 
   constructor() {
     let dataPie = localStorage.getItem("dataPie");
     this.title = localStorage.getItem("titlePie");
-    if (dataPie != undefined || dataPie != null || dataPie != "") {
+    this.pilihan = localStorage.getItem("pilihan");
+    console.log(this.pilihan, typeof this.pilihan);
+    this.pilihanText = this.pilihan == 1 ? "Penyakit" : "Daerah";
+    console.log(dataPie);
+    if (dataPie) {
       this.dataPieAr = JSON.parse(dataPie);
       const clusters = {};
       this.dataPieAr.forEach((item) => {
@@ -67,7 +73,8 @@ export class DynamicPieComponent implements OnInit, AfterViewInit {
 
     this.dataPieAr.forEach((item) => {
       const cluster = item.cluster;
-      const daerahName = item.daerah_name;
+      const daerahName =
+        this.pilihan == 1 ? item.daerah_name : item.penyakit_name;
 
       if (!clusters[cluster]) {
         clusters[cluster] = {

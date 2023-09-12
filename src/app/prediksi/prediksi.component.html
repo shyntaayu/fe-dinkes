@@ -54,12 +54,28 @@
                                             </daerah-ddl>
                                         </div>
                                     </div>
-                                    <div class="row form-row">
+                                    <!-- <div class="row form-row">
                                         <label class="col-md-3 col-2 col-form-label">Tahun</label>
                                         <div class="col-md-9 col-9">
                                             <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
                                                 (ngModelChange)="filterAll()">
                                             </tahun-ddl>
+                                        </div>
+                                    </div> -->
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Tahun Mulai</label>
+                                        <div class="col-md-9 col-9">
+                                            <tahun-single-ddl [isAwal]="true" formControlName="tahunMulai"
+                                                [(ngModel)]="tahunMulai" (ngModelChange)="filterAll()">
+                                            </tahun-single-ddl>
+                                        </div>
+                                    </div>
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Prediksi Sampai Tahun</label>
+                                        <div class="col-md-9 col-9">
+                                            <tahun-single-ddl [isAwal]="false" formControlName="tahunAkhir"
+                                                [(ngModel)]="tahunAkhir" (ngModelChange)="filterAll()">
+                                            </tahun-single-ddl>
                                         </div>
                                     </div>
                                     <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
@@ -96,11 +112,19 @@
                                         </div>
                                     </div>
                                     <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
+                                        <label class="col-md-3 col-2 col-form-label">Tahun Mulai</label>
                                         <div class="col-md-9 col-9">
-                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
-                                                (ngModelChange)="filterAll()">
-                                            </tahun-ddl>
+                                            <tahun-single-ddl [isAwal]="true" formControlName="tahunMulai"
+                                                [(ngModel)]="tahunMulai" (ngModelChange)="filterAll()">
+                                            </tahun-single-ddl>
+                                        </div>
+                                    </div>
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Prediksi Sampai Tahun</label>
+                                        <div class="col-md-9 col-9">
+                                            <tahun-single-ddl [isAwal]="false" formControlName="tahunAkhir"
+                                                [(ngModel)]="tahunAkhir" (ngModelChange)="filterAll()">
+                                            </tahun-single-ddl>
                                         </div>
                                     </div>
                                     <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"

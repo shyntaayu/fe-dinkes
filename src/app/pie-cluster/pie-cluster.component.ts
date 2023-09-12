@@ -14,10 +14,17 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
   dataTable = [];
   dataPieAr = [];
   tahunAr = [];
+  pilihan;
+  pilihanText = "";
+  pilihanKet = "";
 
   constructor() {
     let dataPie = localStorage.getItem("dataPie");
     this.title = localStorage.getItem("titlePie");
+    this.pilihan = localStorage.getItem("pilihan");
+    console.log(this.pilihan, typeof this.pilihan);
+    this.pilihanText = this.pilihan == 1 ? "Penyakit" : "Daerah";
+    this.pilihanKet = this.pilihan == 2 ? "Penyakit" : "Daerah";
     if (dataPie != undefined || dataPie != null || dataPie != "") {
       this.dataPieAr = JSON.parse(dataPie);
       const clusters = {};
@@ -68,7 +75,8 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
 
     this.dataPieAr.forEach((item) => {
       const cluster = item.cluster;
-      const daerahName = item.daerah_name;
+      const daerahName =
+        this.pilihan == 1 ? item.daerah_name : item.penyakit_name;
 
       if (!clusters[cluster]) {
         clusters[cluster] = {

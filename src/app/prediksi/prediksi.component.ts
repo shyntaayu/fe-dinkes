@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MainService } from "app/services/main.service";
+import { TahunService } from "app/services/tahun.service";
 import { finalize } from "rxjs/operators";
 import { AppComponentBase } from "shared/app-component-base";
 
@@ -18,11 +19,15 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
   penyakit = [];
   daerah = [];
   tahun = [];
+  tahunTemp = [];
   pilihan = 1;
+  tahunMulai;
+  tahunAkhir;
 
   constructor(
     private fb: FormBuilder,
     private _mainService: MainService,
+    private _tahunService: TahunService,
     private _router: Router,
     injector: Injector
   ) {
@@ -30,11 +35,13 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
     this.profileForm = this.fb.group({
       penyakit: ["", Validators.required],
       daerah: ["", Validators.required],
-      tahun: ["", Validators.required],
+      tahunMulai: ["", Validators.required],
+      tahunAkhir: ["", Validators.required],
     });
   }
   ngOnInit(): void {
-    throw new Error("Method not implemented.");
+    this.getListPenyakit();
+    this.getTahun();
   }
   onSubmit() {
     console.log(this.profileForm.value);
@@ -108,13 +115,19 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
   }
 
   filterAll() {
+    console.log("tahunTemp---", this.tahunTemp);
+    let tahun = ["2017", "2018", "2019", "2020", "2021"];
+    const startIndex = tahun.indexOf(this.tahunMulai);
+    if (startIndex !== -1) {
+      tahun.splice(0, startIndex);
+    }
+    console.log("tahun----", tahun);
     const clonedListPenyakit = this.listPenyakit.slice();
     let filteredData = [];
     if (this.pilihan == 1)
-      filteredData = this.filterByPenyakit(clonedListPenyakit);
+      filteredData = this.filterByPenyakit(clonedListPenyakit, tahun);
     if (this.pilihan == 2)
-      filteredData = this.filterByDaerah(clonedListPenyakit);
-
+      filteredData = this.filterByDaerah(clonedListPenyakit, tahun);
     this.listPenyakitTemp = filteredData;
     console.log("filter", filteredData);
   }
@@ -205,7 +218,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
       );
   }
 
-  filterByPenyakit(clonedListPenyakit) {
+  filterByPenyakit(clonedListPenyakit, tahun) {
     const filtered = clonedListPenyakit
       .map((item) => {
         const filteredListTable = item.list_table
@@ -216,7 +229,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
           )
           .map((row) => {
             const filteredRow = { daerah_name: row.daerah_name };
-            this.tahun.forEach((year) => {
+            tahun.forEach((year) => {
               if (row.hasOwnProperty(year)) {
                 filteredRow[year] = row[year];
               }
@@ -236,7 +249,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
       .filter((item) => item !== null);
     return filtered;
   }
-  filterByDaerah(clonedListPenyakit) {
+  filterByDaerah(clonedListPenyakit, tahun) {
     const filtered = clonedListPenyakit
       .map((item) => {
         const filteredListTable = item.list_table
@@ -247,7 +260,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
           )
           .map((row) => {
             const filteredRow = { penyakit_name: row.penyakit_name };
-            this.tahun.forEach((year) => {
+            tahun.forEach((year) => {
               if (row.hasOwnProperty(year)) {
                 filteredRow[year] = row[year];
               }
@@ -301,7 +314,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
             return mappedItem;
           });
 
-          let a = this.filterByPenyakit(mappedArray);
+          let a = this.filterByPenyakit(mappedArray, this.tahun);
           this.listPenyakit = a;
           this.listPenyakitTemp = a;
 
@@ -355,9 +368,34 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
 
   prediksiProcess(param) {
     console.log(param);
+    // Get all the keys (years) from the object
+    const keys = Object.keys(param.data[0]);
+
+    // Filter out keys that are not years (assuming years are numeric)
+    const years = keys.filter((key) => !isNaN(+key));
+    if (years.length < 3) {
+      this.showMessage(
+        "Peringatan",
+        "Silahkan pilih tahun mulai minimal 3 tahun terakhir",
+        "warning"
+      );
+      return false;
+    }
     this.loading = true;
+    // Find the maximum year (last year)
+    const lastYear = years.reduce(
+      (maxYear, year) => Math.max(maxYear, parseInt(year)),
+      0
+    );
+
+    let tahunAwal = lastYear + 1;
+    let data = {
+      data: param.data,
+      tahunAkhir: this.tahunAkhir,
+      tahunAwal: tahunAwal,
+    };
     this._mainService
-      .processPrediksi(param.data)
+      .processPrediksi(data)
       .pipe(
         finalize(() => {
           this.loading = false;
@@ -366,9 +404,18 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
       .subscribe(
         (res) => {
           console.log("hasil----", res);
-          this.listPenyakit[param.idx].list_table = res;
-          this.listPenyakitTemp = this.listPenyakit;
-          this.listPenyakit = [...this.listPenyakit];
+          let index = 0;
+          if (this.pilihan == 1)
+            index = this.listPenyakitTemp.findIndex(
+              (e) => e.penyakit_name == param.penyakit_name
+            );
+          if (this.pilihan == 2)
+            index = this.listPenyakitTemp.findIndex(
+              (e) => e.daerah_name == param.daerah_name
+            );
+          this.listPenyakitTemp[index].list_table = res;
+          // this.listPenyakitTemp = this.listPenyakit;
+          // this.listPenyakit = [...this.listPenyakit];
           this.listPenyakitTemp = [...this.listPenyakitTemp];
           if (res.status == 0) {
             this.showMessage("Eror!", res.message, "error");
@@ -392,5 +439,18 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
     localStorage.setItem("dataLine", JSON.stringify(param.data));
     localStorage.setItem("titleLine", param.title);
     this._router.navigate(["grafik"]);
+  }
+
+  getTahun() {
+    this._tahunService.getAllTahun().subscribe(
+      (result) => {
+        this.tahunTemp = result.map((obj) => obj.tahun);
+        this.tahun = this.tahunTemp;
+      },
+      (err) => {
+        console.error(err);
+        this.showMessage("Eror!", err.message, "error");
+      }
+    );
   }
 }

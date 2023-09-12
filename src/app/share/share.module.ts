@@ -12,6 +12,8 @@ import { ControlMessageComponent } from "./control-message.component";
 import { MultiSelectModule } from "primeng/multiselect";
 import { DaerahDdlComponent } from "./daerah-ddl.component";
 import { TahunDdlComponent } from "./tahun-ddl.component";
+import { TahunSingleDdlComponent } from "./tahun-single-ddl.component";
+import { DropdownModule } from "primeng/dropdown";
 
 @NgModule({
   imports: [
@@ -23,6 +25,7 @@ import { TahunDdlComponent } from "./tahun-ddl.component";
     ReactiveFormsModule,
     UtilsModule,
     MultiSelectModule,
+    DropdownModule,
   ],
   declarations: [
     PenyakitDdlComponent,
@@ -31,6 +34,7 @@ import { TahunDdlComponent } from "./tahun-ddl.component";
     FormControlStyleComponent,
     DaerahDdlComponent,
     TahunDdlComponent,
+    TahunSingleDdlComponent,
   ],
   exports: [
     PenyakitDdlComponent,
@@ -39,6 +43,7 @@ import { TahunDdlComponent } from "./tahun-ddl.component";
     FormControlStyleComponent,
     DaerahDdlComponent,
     TahunDdlComponent,
+    TahunSingleDdlComponent,
   ],
 })
 export class ShareModule {}

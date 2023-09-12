@@ -8,7 +8,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    Penyakit
+                                    {{pilihanText}}
                                 </td>
                                 <td>
                                     : {{title}}
@@ -31,7 +31,7 @@
                                     [style]="{'width': '10%'}"></p-chart>
                             </div>
                             <div class="col-md-6">
-                                <h5 class="card-title">List Daerah Berdasarkan Cluster</h5>
+                                <h5 class="card-title">List {{pilihanKet}} Berdasarkan Cluster</h5>
                                 <p-accordion>
                                     <p-accordionTab [header]="item.cluster" *ngFor="let item of dataTable"
                                         [ngClass]="item.cluster == 'tinggi' ? 'bg-tinggi' : item.cluster == 'rendah' ? 'bg-rendah' : item.cluster == 'sedang' ? 'bg-sedang':''">
