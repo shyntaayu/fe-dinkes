@@ -19,6 +19,8 @@ export class DataComponent extends AppComponentBase implements OnInit {
   daerah = [];
   tahun = [];
   pilihan = 1;
+  restructuredDataPie = [];
+  loadingPie = false;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +37,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getListPenyakit();
+    this.getListPenyakit();
   }
 
   onSubmit() {
@@ -143,12 +145,77 @@ export class DataComponent extends AppComponentBase implements OnInit {
             index = this.listPenyakitTemp.findIndex(
               (e) => e.daerah_name == param.daerah_name
             );
-          this.listPenyakitTemp[index].list_table = res;
-          // this.listPenyakitTemp = this.listPenyakit;
-          // this.listPenyakit = [...this.listPenyakit];
-          this.listPenyakitTemp = [...this.listPenyakitTemp];
+
+          if (this.pilihan != 3) {
+            this.listPenyakitTemp[index].list_table = res;
+            this.listPenyakitTemp = [...this.listPenyakitTemp];
+          } else {
+            this.restructuredDataPie.map((restructured) => {
+              if (restructured.tahun == param.tahun) {
+                restructured.list_penyakit[param.idx].list_cluster = res;
+
+                const clusters = {};
+                res.forEach((item) => {
+                  const clusterLevel = item.clusterLevel;
+                  clusters[clusterLevel] = clusters[clusterLevel]
+                    ? clusters[clusterLevel] + 1
+                    : 1;
+                });
+                const sorted_object = Object.keys(clusters)
+                  .sort()
+                  .reduce((acc, key) => {
+                    acc[key] = clusters[key];
+                    return acc;
+                  }, {});
+
+                const labels = Object.keys(sorted_object);
+                const dataValues = Object.values(sorted_object);
+
+                const restructuredData = {
+                  labels: labels,
+                  datasets: [
+                    {
+                      data: dataValues,
+                      backgroundColor: ["#66BB6A", "#FFA726", "#b22222"],
+                      hoverBackgroundColor: ["#81C784", "#FFB74D", "#d83131"],
+                    },
+                  ],
+                };
+                restructured.list_penyakit[param.idx].data_pie =
+                  restructuredData;
+
+                // list-datatable
+                const restructuredDataT = [];
+                const clustersT = {};
+
+                res.forEach((item) => {
+                  const cluster = item.cluster;
+                  const daerahName = item.daerah_name;
+
+                  if (!clustersT[cluster]) {
+                    clustersT[cluster] = {
+                      cluster: item.clusterLevel,
+                      list_daerah: [{ daerah_name: daerahName }],
+                    };
+                  } else {
+                    clustersT[cluster].list_daerah.push({
+                      daerah_name: daerahName,
+                    });
+                  }
+                });
+
+                Object.values(clustersT).forEach((cluster) => {
+                  restructuredDataT.push(cluster);
+                });
+
+                restructured.list_penyakit[param.idx].data_table =
+                  restructuredDataT;
+              }
+            });
+          }
 
           console.log("listPenyakit", this.listPenyakitTemp);
+          console.log("listPie", this.restructuredDataPie);
           if (res.status == 0) {
             this.showMessage("Eror!", res.message, "error");
           } else {
@@ -283,6 +350,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
     this.resetFilter();
     let model = param;
     this.loading = true;
+    this.loadingPie = true;
     this._mainService
       .getMain("penyakit", "daerah", "tahun")
       .pipe(
@@ -315,19 +383,19 @@ export class DataComponent extends AppComponentBase implements OnInit {
           this.listPenyakit = a;
           this.listPenyakitTemp = a;
 
-          let restructuredData = [];
+          this.restructuredDataPie = [];
 
           mappedArray.forEach((item) => {
             item.list_table.forEach((row) => {
               Object.keys(row).forEach((year) => {
                 if (year !== "daerah_name") {
-                  let existingYearEntry = restructuredData.find(
+                  let existingYearEntry = this.restructuredDataPie.find(
                     (entry) => entry.tahun === year
                   );
 
                   if (!existingYearEntry) {
                     existingYearEntry = { tahun: year, list_penyakit: [] };
-                    restructuredData.push(existingYearEntry);
+                    this.restructuredDataPie.push(existingYearEntry);
                   }
 
                   let existingPenyakitEntry =
@@ -353,9 +421,20 @@ export class DataComponent extends AppComponentBase implements OnInit {
             });
           });
 
-          console.log(restructuredData);
-          // this.clusterProcess(restructuredData)
-          // console.log(this.listPenyakit);
+          console.log(this.restructuredDataPie);
+
+          this.restructuredDataPie.map((restructured) => {
+            restructured.list_penyakit.map((p, i) => {
+              let param = {
+                data: p.list_table,
+                idx: i,
+                penyakit_name: p.penyakit_name,
+                tahun: restructured.tahun,
+              };
+              this.clusterProcess(param);
+              this.loadingPie = false;
+            });
+          });
         },
         (error) => {
           this.showMessage("Eror!", error.message, "error");

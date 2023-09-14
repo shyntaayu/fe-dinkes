@@ -368,6 +368,14 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
 
   prediksiProcess(param) {
     console.log(param);
+    if (!this.tahunAkhir) {
+      this.showMessage(
+        "Peringatan",
+        "Silahkan pilih prediksi sampai tahun",
+        "warning"
+      );
+      return false;
+    }
     // Get all the keys (years) from the object
     const keys = Object.keys(param.data[0]);
 

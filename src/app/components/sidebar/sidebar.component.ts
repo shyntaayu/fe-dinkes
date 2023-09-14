@@ -13,12 +13,12 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
   { path: "/dashboard", title: "Dashboard", icon: "dashboard", class: "" },
   { path: "/data", title: "Clustering", icon: "table_chart", class: "" },
-  {
-    path: "/hasil",
-    title: "Hasil Clustering",
-    icon: "bubble_chart",
-    class: "",
-  },
+  // {
+  //   path: "/hasil",
+  //   title: "Hasil Clustering",
+  //   icon: "bubble_chart",
+  //   class: "",
+  // },
   {
     path: "/prediksi",
     title: "Prediksi",
@@ -92,7 +92,7 @@ export const ROUTES: RouteInfo[] = [
 export const menu: AppMenuItem[] = [
   new AppMenuItem("Dashboard", "1,2", "dashboard", "/dashboard"),
   new AppMenuItem("Clustering", "1", "table_chart", "/data"),
-  new AppMenuItem("Hasil Clustering", "1", "bubble_chart", "/hasil"),
+  // new AppMenuItem("Hasil Clustering", "1", "bubble_chart", "/hasil"),
   new AppMenuItem("Prediksi", "1", "cast", "/prediksi"),
   new AppMenuItem("Grafik", "1", "show_chart", "/grafik"),
   new AppMenuItem("Diagram Cluster", "1", "pie_chart", "/diagram"),

@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 
 @Component({
   selector: "app-dynamic-pie",
@@ -6,60 +12,51 @@ import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
   styleUrls: ["./dynamic-pie.component.css"],
 })
 export class DynamicPieComponent implements OnInit, AfterViewInit {
-  @Input() data: any;
+  @Input() dataDynamic: any;
   title = "";
   tahun = "";
   dataTable = [];
   dataPieAr = [];
   tahunAr = [];
   chartOptions: any;
-  pilihan;
   pilihanText = "";
 
   constructor() {
-    let dataPie = localStorage.getItem("dataPie");
-    this.title = localStorage.getItem("titlePie");
-    this.pilihan = localStorage.getItem("pilihan");
-    console.log(this.pilihan, typeof this.pilihan);
-    this.pilihanText = this.pilihan == 1 ? "Penyakit" : "Daerah";
-    console.log(dataPie);
-    if (dataPie) {
-      this.dataPieAr = JSON.parse(dataPie);
-      const clusters = {};
-      this.dataPieAr.forEach((item) => {
-        const clusterLevel = item.clusterLevel;
-        clusters[clusterLevel] = clusters[clusterLevel]
-          ? clusters[clusterLevel] + 1
-          : 1;
-      });
-      const sorted_object = Object.keys(clusters)
-        .sort()
-        .reduce((acc, key) => {
-          acc[key] = clusters[key];
-          return acc;
-        }, {});
+    // console.log(dataPie);
+    // if (dataPie) {
+    //   this.dataPieAr = JSON.parse(dataPie);
+    //   const clusters = {};
+    //   this.dataPieAr.forEach((item) => {
+    //     const clusterLevel = item.clusterLevel;
+    //     clusters[clusterLevel] = clusters[clusterLevel]
+    //       ? clusters[clusterLevel] + 1
+    //       : 1;
+    //   });
+    //   const sorted_object = Object.keys(clusters)
+    //     .sort()
+    //     .reduce((acc, key) => {
+    //       acc[key] = clusters[key];
+    //       return acc;
+    //     }, {});
 
-      const labels = Object.keys(sorted_object);
-      const dataValues = Object.values(sorted_object);
+    //   const labels = Object.keys(sorted_object);
+    //   const dataValues = Object.values(sorted_object);
 
-      const restructuredData = {
-        labels: labels,
-        datasets: [
-          {
-            data: dataValues,
-            backgroundColor: ["#66BB6A", "#FFA726", "#b22222"],
-            hoverBackgroundColor: ["#81C784", "#FFB74D", "#d83131"],
-          },
-        ],
-      };
-      this.data = restructuredData;
-    }
-    console.log("dataPieAr", this.data);
+    //   const restructuredData = {
+    //     labels: labels,
+    //     datasets: [
+    //       {
+    //         data: dataValues,
+    //         backgroundColor: ["#66BB6A", "#FFA726", "#b22222"],
+    //         hoverBackgroundColor: ["#81C784", "#FFB74D", "#d83131"],
+    //       },
+    //     ],
+    //   };
+    //   this.data = restructuredData;
+    // }
+    console.log("dataPieAr", this.dataDynamic);
   }
-  ngAfterViewInit(): void {
-    // localStorage.removeItem("dataPie");
-    // localStorage.removeItem("titlePie");
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.mappingDataTable();
@@ -73,8 +70,7 @@ export class DynamicPieComponent implements OnInit, AfterViewInit {
 
     this.dataPieAr.forEach((item) => {
       const cluster = item.cluster;
-      const daerahName =
-        this.pilihan == 1 ? item.daerah_name : item.penyakit_name;
+      const daerahName = item.daerah_name;
 
       if (!clusters[cluster]) {
         clusters[cluster] = {
