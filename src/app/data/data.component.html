@@ -120,19 +120,19 @@
                             <div class="tab-pane" id="settings">
                                 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
                                     <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
-                                        <div class="col-md-9 col-9">
-                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
-                                                (ngModelChange)="filterAll()">
-                                            </tahun-ddl>
-                                        </div>
-                                    </div>
-                                    <div class="row form-row">
                                         <label class="col-md-3 col-2 col-form-label">Penyakit</label>
                                         <div class="col-md-9 col-9">
                                             <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit"
                                                 (ngModelChange)="filterAll()">
                                             </penyakit-ddl>
+                                        </div>
+                                    </div>
+                                    <div class="row form-row">
+                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
+                                        <div class="col-md-9 col-9">
+                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
+                                                (ngModelChange)="filterAll()">
+                                            </tahun-ddl>
                                         </div>
                                     </div>
                                     <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
@@ -145,6 +145,7 @@
                                             (click)="getListTahun()" [loading]="loading">Perbarui Data</button>
                                     </div>
                                 </div>
+                                <span *ngIf="loadingPie">Proses Clustering .....</span>
                                 <app-dynamic-pie [busyIf]="loadingPie"
                                     [dataDynamic]="restructuredDataPie"></app-dynamic-pie>
                             </div>

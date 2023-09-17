@@ -20,6 +20,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
   tahun = [];
   pilihan = 1;
   restructuredDataPie = [];
+  restructuredDataPieTemp = [];
   loadingPie = false;
 
   constructor(
@@ -112,14 +113,21 @@ export class DataComponent extends AppComponentBase implements OnInit {
   }
 
   filterAll() {
+    console.log("pilihan----", this.pilihan);
     const clonedListPenyakit = this.listPenyakit.slice();
     let filteredData = [];
     if (this.pilihan == 1)
       filteredData = this.filterByPenyakit(clonedListPenyakit);
     if (this.pilihan == 2)
       filteredData = this.filterByDaerah(clonedListPenyakit);
+    if (this.pilihan == 3) {
+      debugger;
+      let data = this.restructuredDataPieTemp.slice();
+      filteredData = this.filterByTahun(data);
+      this.restructuredDataPie = filteredData;
+    }
 
-    this.listPenyakitTemp = filteredData;
+    if (this.pilihan != 3) this.listPenyakitTemp = filteredData;
     console.log("filter", filteredData);
   }
 
@@ -216,6 +224,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
 
           console.log("listPenyakit", this.listPenyakitTemp);
           console.log("listPie", this.restructuredDataPie);
+          this.restructuredDataPieTemp = this.restructuredDataPie.slice();
           if (res.status == 0) {
             this.showMessage("Eror!", res.message, "error");
           } else {
@@ -440,5 +449,21 @@ export class DataComponent extends AppComponentBase implements OnInit {
           this.showMessage("Eror!", error.message, "error");
         }
       );
+  }
+
+  filterByTahun(clonedListPenyakit) {
+    console.log(this.penyakit);
+    const filtered = clonedListPenyakit
+      .filter((item) => {
+        return this.tahun.includes(item.tahun);
+      })
+      .map((item) => {
+        item.list_penyakit = item.list_penyakit.filter((a) =>
+          this.penyakit.includes(a.penyakit_name)
+        );
+        return item;
+      });
+    console.log("filtered----", filtered);
+    return filtered;
   }
 }
