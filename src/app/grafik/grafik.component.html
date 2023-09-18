@@ -4,10 +4,35 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="card-header card-header-tabs card-header-success">
-                        <h4 class="card-title" style="flex: 1;">Hasil Prediksi Penyakit {{title}}</h4>
+                        <h4 class="card-title" style="flex: 1;">Hasil Prediksi</h4>
+                        <table>
+                            <tr>
+                                <td>
+                                    {{pilihanText}}
+                                </td>
+                                <td>
+                                    : {{title}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tahun
+                                </td>
+                                <td>
+                                    : {{tahun}}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="card-body">
-                        <p-chart type="line" [data]="data"></p-chart>
+                        <div class="row form-row" style="margin-bottom: 8px;">
+                            <label class="col-md-3 col-2 col-form-label">Daerah</label>
+                            <div class="col-md-9 col-9">
+                                <daerah-ddl [(ngModel)]="daerah" (ngModelChange)="filterAll()">
+                                </daerah-ddl>
+                            </div>
+                        </div>
+                        <p-chart type="line" [data]="dataTemp"></p-chart>
                     </div>
                 </div>
             </div>
