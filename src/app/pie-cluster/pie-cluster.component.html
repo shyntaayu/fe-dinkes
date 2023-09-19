@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                <div class="card">
+                <div class="card" *ngIf="data">
                     <div class="card-header card-header-tabs card-header-success">
                         <h4 class="card-title" style="flex: 1;">Hasil Clustering </h4>
                         <table>
@@ -44,6 +44,9 @@
                         </div>
 
                     </div>
+                </div>
+                <div class="card" *ngIf="!data" style="padding: 10px;">
+                    <a href="/data">Ke Menu Clustering</a>
                 </div>
             </div>
         </div>

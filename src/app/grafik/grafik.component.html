@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                <div class="card">
+                <div class="card" *ngIf="isData">
                     <div class="card-header card-header-tabs card-header-success">
                         <h4 class="card-title" style="flex: 1;">Hasil Prediksi</h4>
                         <table>
@@ -25,15 +25,25 @@
                         </table>
                     </div>
                     <div class="card-body">
-                        <div class="row form-row" style="margin-bottom: 8px;">
+                        <div class="row form-row" style="margin-bottom: 8px;" *ngIf="pilihan==1">
                             <label class="col-md-3 col-2 col-form-label">Daerah</label>
                             <div class="col-md-9 col-9">
                                 <daerah-ddl [(ngModel)]="daerah" (ngModelChange)="filterAll()">
                                 </daerah-ddl>
                             </div>
                         </div>
+                        <div class="row form-row" style="margin-bottom: 8px;" *ngIf="pilihan==2">
+                            <label class="col-md-3 col-2 col-form-label">Penyakit</label>
+                            <div class="col-md-9 col-9">
+                                <penyakit-ddl [(ngModel)]="penyakit" (ngModelChange)="filterAll()">
+                                </penyakit-ddl>
+                            </div>
+                        </div>
                         <p-chart type="line" [data]="dataTemp"></p-chart>
                     </div>
+                </div>
+                <div class="card" *ngIf="!isData" style="padding: 10px;">
+                    <a href="/prediksi">Ke Menu Prediksi</a>
                 </div>
             </div>
         </div>

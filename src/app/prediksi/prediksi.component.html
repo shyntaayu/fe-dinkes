@@ -22,13 +22,6 @@
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a mat-button class="nav-link" href="#settings" (click)="getListTahun()"
-                                            data-toggle="tab">
-                                            <i class="material-icons">cloud</i> Tahun
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -68,6 +61,7 @@
                                             <tahun-single-ddl [isAwal]="true" formControlName="tahunMulai"
                                                 [(ngModel)]="tahunMulai" (ngModelChange)="filterAll()">
                                             </tahun-single-ddl>
+                                            <span class="text-danger">Pilih tahun mulai minimal 3 tahun terakhir</span>
                                         </div>
                                     </div>
                                     <div class="row form-row">
@@ -117,6 +111,7 @@
                                             <tahun-single-ddl [isAwal]="true" formControlName="tahunMulai"
                                                 [(ngModel)]="tahunMulai" (ngModelChange)="filterAll()">
                                             </tahun-single-ddl>
+                                            <span class="text-danger">Pilih tahun mulai minimal 3 tahun terakhir</span>
                                         </div>
                                     </div>
                                     <div class="row form-row">
@@ -140,37 +135,6 @@
                                 <app-dynamic-table [data]="listPenyakitTemp" [type]="2" [pilihan]="2"
                                     (prosesClustering)="prediksiProcess($event)"
                                     (prosesDiagram)="diagramProcess($event)"></app-dynamic-table>
-                            </div>
-                            <div class="tab-pane" id="settings">
-                                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-                                    <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Tahun</label>
-                                        <div class="col-md-9 col-9">
-                                            <tahun-ddl formControlName="tahun" [(ngModel)]="tahun"
-                                                (ngModelChange)="filterAll()">
-                                            </tahun-ddl>
-                                        </div>
-                                    </div>
-                                    <div class="row form-row">
-                                        <label class="col-md-3 col-2 col-form-label">Penyakit</label>
-                                        <div class="col-md-9 col-9">
-                                            <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit"
-                                                (ngModelChange)="filterAll()">
-                                            </penyakit-ddl>
-                                        </div>
-                                    </div>
-                                    <!-- <button mat-raised-button type="submit" class="btn btn-success pull-right"
-                                        [disabled]="!profileForm.valid" [loading]="loading">Cari</button> -->
-                                    <div class="clearfix"></div>
-                                </form>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button mat-raised-button type="submit" class="btn btn-rose pull-right"
-                                            (click)="getListTahun()" [loading]="loading">Perbarui Data</button>
-                                    </div>
-                                </div>
-                                <app-dynamic-pie (prosesClustering)="prediksiProcess($event)"
-                                    (prosesDiagram)="diagramProcess($event)"></app-dynamic-pie>
                             </div>
                         </div>
                     </div>

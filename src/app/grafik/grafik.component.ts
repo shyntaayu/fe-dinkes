@@ -1,11 +1,15 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
   selector: "app-grafik",
   templateUrl: "./grafik.component.html",
   styleUrls: ["./grafik.component.css"],
 })
-export class GrafikComponent implements OnInit, AfterViewInit {
+export class GrafikComponent
+  extends AppComponentBase
+  implements OnInit, AfterViewInit
+{
   data = {
     labels: [],
     datasets: [],
@@ -18,19 +22,24 @@ export class GrafikComponent implements OnInit, AfterViewInit {
   dataLineAr = [];
   daerah = [];
   dataTemp = {};
+  penyakit = [];
+  isData = false;
 
-  constructor() {
+  constructor(injector: Injector) {
+    super(injector);
     let dataLine = localStorage.getItem("dataLine");
     this.title = localStorage.getItem("titleLine");
     this.pilihan = localStorage.getItem("pilihan");
     this.pilihanText = this.pilihan == 1 ? "Penyakit" : "Daerah";
-    if (dataLine != undefined || dataLine != null || dataLine != "") {
+    if (dataLine != undefined && dataLine != null && dataLine != "") {
+      this.isData = true;
       this.dataLineAr = [];
       this.dataLineAr = JSON.parse(dataLine);
-      this.data.labels = Object.keys(this.dataLineAr[0]).filter(
-        (key) => key != "daerah_name"
-      );
 
+      let labels = Object.keys(this.dataLineAr[0]).filter((key) => {
+        return key != (this.pilihan == 2 ? "penyakit_name" : "daerah_name");
+      });
+      this.data.labels = labels;
       const restructuredData = this.dataLineAr.map((item) => {
         const label = this.pilihan == 1 ? item.daerah_name : item.penyakit_name;
         const values = Object.keys(item)
@@ -41,6 +50,13 @@ export class GrafikComponent implements OnInit, AfterViewInit {
 
       this.data.datasets = restructuredData;
       this.dataTemp = JSON.parse(JSON.stringify(this.data));
+    } else {
+      this.isData = false;
+      this.showMessage(
+        "Informasi",
+        "Silakan ke menu prediksi dulu untuk melihat grafik prediksi",
+        "info"
+      );
     }
     console.log("dataLineAr", this.data);
   }
@@ -67,11 +83,12 @@ export class GrafikComponent implements OnInit, AfterViewInit {
   }
 
   filterAll() {
-    console.log("daerah", this.daerah);
+    console.log("daerah", this.daerah, this.penyakit);
     let dataT = JSON.parse(JSON.stringify(this.data));
-    let filteredDatasets = dataT["datasets"].filter((dataset) =>
-      this.daerah.includes(dataset.label)
-    );
+    let filteredDatasets = dataT["datasets"].filter((dataset) => {
+      if (this.pilihan == 1) return this.daerah.includes(dataset.label);
+      else return this.penyakit.includes(dataset.label);
+    });
 
     // Create a new object with the filtered datasets
     let filteredData = {

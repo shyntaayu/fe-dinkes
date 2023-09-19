@@ -1,11 +1,15 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
   selector: "app-pie-cluster",
   templateUrl: "./pie-cluster.component.html",
   styleUrls: ["./pie-cluster.component.css"],
 })
-export class PieClusterComponent implements OnInit, AfterViewInit {
+export class PieClusterComponent
+  extends AppComponentBase
+  implements OnInit, AfterViewInit
+{
   data: any;
 
   chartOptions: any;
@@ -18,14 +22,15 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
   pilihanText = "";
   pilihanKet = "";
 
-  constructor() {
+  constructor(injector: Injector) {
+    super(injector);
     let dataPie = localStorage.getItem("dataPie");
     this.title = localStorage.getItem("titlePie");
     this.pilihan = localStorage.getItem("pilihan");
-    console.log(this.pilihan, typeof this.pilihan);
+    console.log(this.pilihan, typeof this.pilihan, dataPie, typeof dataPie);
     this.pilihanText = this.pilihan == 1 ? "Penyakit" : "Daerah";
     this.pilihanKet = this.pilihan == 2 ? "Penyakit" : "Daerah";
-    if (dataPie != undefined || dataPie != null || dataPie != "") {
+    if (dataPie != undefined && dataPie != null && dataPie != "") {
       this.dataPieAr = JSON.parse(dataPie);
       const clusters = {};
       this.dataPieAr.forEach((item) => {
@@ -55,6 +60,12 @@ export class PieClusterComponent implements OnInit, AfterViewInit {
         ],
       };
       this.data = restructuredData;
+    } else {
+      this.showMessage(
+        "Informasi",
+        "Silakan ke menu clustering dulu untuk melihat diagram cluster",
+        "info"
+      );
     }
     console.log("dataPieAr", this.data);
   }
