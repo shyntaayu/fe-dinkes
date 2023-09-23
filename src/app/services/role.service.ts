@@ -9,6 +9,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "environments/environment";
 import { AppConfig } from "app/model/app-config";
+import { Roles } from "app/model/roles";
 import { Role } from "app/model/role";
 @Injectable({
   providedIn: "root",
@@ -18,8 +19,23 @@ export class RoleService {
 
   constructor(private http: HttpClient, private appConfig: AppConfig) {}
 
-  getAllRole(): Observable<Role> {
-    return this.http.get<Role>(`${this.appConfig.apiUrl}/role`);
+  getAllRole(): Observable<Roles> {
+    return this.http.get<Roles>(`${this.appConfig.apiUrl}/role`);
+  }
+
+  delete(id): Observable<any> {
+    var API_URL = `${this.appConfig.apiUrl}/role/${id}`;
+    return this.http.delete(API_URL).pipe(catchError(this.errorMgmt));
+  }
+
+  update(data: Role): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/role/${data.role_id}`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
+
+  create(data: Role): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/role`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
   }
 
   errorMgmt(error: HttpErrorResponse) {

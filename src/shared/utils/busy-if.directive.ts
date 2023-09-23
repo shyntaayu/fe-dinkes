@@ -52,6 +52,7 @@ export class LoadingDirective implements OnInit, OnChanges {
     );
     this.renderer.setStyle(loadingContainer, "width", "100%");
     this.renderer.setStyle(loadingContainer, "height", "100%");
+    this.renderer.setStyle(loadingContainer, "margin-left", "-10px");
 
     // custom spinner -- start
     const spinnerContainer = this.renderer.createElement("div");
