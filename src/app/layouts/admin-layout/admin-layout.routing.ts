@@ -18,6 +18,8 @@ import { BulkInputComponent } from "app/bulk-input/bulk-input.component";
 import { AuthGuard } from "app/helpers/auth.guard";
 import { UserComponent } from "app/master/user/user.component";
 import { RoleComponent } from "app/master/role/role.component";
+import { PenyakitComponent } from "app/master/penyakit/penyakit.component";
+import { DaerahComponent } from "app/master/daerah/daerah.component";
 
 export const AdminLayoutRoutes: Routes = [
   // {
@@ -126,6 +128,18 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "role",
     component: RoleComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1] },
+  },
+  {
+    path: "penyakit",
+    component: PenyakitComponent,
+    canActivate: [AuthGuard],
+    data: { permission: [1] },
+  },
+  {
+    path: "daerah",
+    component: DaerahComponent,
     canActivate: [AuthGuard],
     data: { permission: [1] },
   },

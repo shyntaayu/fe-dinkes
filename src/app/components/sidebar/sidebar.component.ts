@@ -104,6 +104,8 @@ export const menu: AppMenuItem[] = [
   new AppMenuItem("Master", "1", "apps", "", [
     new AppMenuItem("User", "1", "badge", "/user"),
     new AppMenuItem("Role", "1", "lock", "/role"),
+    new AppMenuItem("Penyakit", "1", "ac_unit", "/penyakit"),
+    new AppMenuItem("Daerah", "1", "place", "/daerah"),
   ]),
 ];
 

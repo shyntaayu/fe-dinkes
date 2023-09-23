@@ -9,6 +9,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "environments/environment";
 import { AppConfig } from "app/model/app-config";
+import { Daerahs } from "app/model/daerahs";
 import { Daerah } from "app/model/daerah";
 @Injectable({
   providedIn: "root",
@@ -18,8 +19,23 @@ export class DaerahService {
 
   constructor(private http: HttpClient, private appConfig: AppConfig) {}
 
-  getAllDaerah(): Observable<Daerah> {
-    return this.http.get<Daerah>(`${this.appConfig.apiUrl}/daerah`);
+  getAllDaerah(): Observable<Daerahs> {
+    return this.http.get<Daerahs>(`${this.appConfig.apiUrl}/daerah`);
+  }
+
+  delete(id): Observable<any> {
+    var API_URL = `${this.appConfig.apiUrl}/daerah/${id}`;
+    return this.http.delete(API_URL).pipe(catchError(this.errorMgmt));
+  }
+
+  update(data: Daerah): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/daerah/${data.daerah_id}`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
+
+  create(data: Daerah): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/daerah`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
   }
 
   errorMgmt(error: HttpErrorResponse) {

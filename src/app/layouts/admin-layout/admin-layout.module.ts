@@ -58,6 +58,8 @@ import { UserComponent } from "app/master/user/user.component";
 import { RoleComponent } from "app/master/role/role.component";
 import { DynamicPieComponent } from "app/dynamic-pie/dynamic-pie.component";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { PenyakitComponent } from "app/master/penyakit/penyakit.component";
+import { DaerahComponent } from "app/master/daerah/daerah.component";
 
 @NgModule({
   imports: [
@@ -122,6 +124,8 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     UserComponent,
     RoleComponent,
     DynamicPieComponent,
+    PenyakitComponent,
+    DaerahComponent,
   ],
   providers: [
     PenyakitService,
