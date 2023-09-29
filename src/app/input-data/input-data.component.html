@@ -4,41 +4,45 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-success">
-                        <h4 class="card-title">Input Data</h4>
-                        <p class="card-category">Complete the requirement fields</p>
+                        <h4 class="card-title">Input Data Penyakit</h4>
+                        <p class="card-category">Admin Kabupaten/ Kota menginputkan jumlah penyakit per tahun </p>
                     </div>
                     <div class="card-body">
                         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
                             <div class="row form-row">
-                                <label class="col-md-3 col-2 col-form-label">Tahun</label>
+                                <label class="col-md-3 col-2 col-form-label">Tahun<span
+                                        class="font-red">*</span></label>
                                 <div class="col-md-9 col-9">
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput [matDatepicker]="dp" formControlName="tahun">
-                                        <mat-hint>YYYY</mat-hint>
-                                        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp startView="multi-year"
-                                            (yearSelected)="chosenYearHandler($event, dp)"
-                                            panelClass="example-month-picker">
+                                    <mat-form-field style="width: min-content;">
+                                        <input [(ngModel)]="tahun" formControlName="tahun" matInput
+                                            [matDatepicker]="picker" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker startView="multi-year"
+                                            (yearSelected)="chosenYearHandler($event, picker)">
                                         </mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="row form-row">
-                                <label class="col-md-3 col-2 col-form-label">Penyakit</label>
+                                <label class="col-md-3 col-2 col-form-label">Penyakit<span
+                                        class="font-red">*</span></label>
                                 <div class="col-md-9 col-9">
-                                    <penyakit-ddl formControlName="penyakit" [(ngModel)]="penyakit">
-                                    </penyakit-ddl>
+                                    <penyakit-single-ddl formControlName="penyakit" [(ngModel)]="penyakit">
+                                    </penyakit-single-ddl>
                                 </div>
                             </div>
                             <div class="row form-row">
-                                <label class="col-md-3 col-2 col-form-label">Jumlah</label>
+                                <label class="col-md-3 col-2 col-form-label">Jumlah<span
+                                        class="font-red">*</span></label>
                                 <div class="col-md-9 col-9">
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Jumlah" type="number" min="0" class="form-control">
+                                    <mat-form-field style="width: min-content;">
+                                        <input matInput type="number" formControlName="jumlah" min="0"
+                                            class="form-control">
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-success pull-right">Save</button>
+                            <button mat-raised-button type="submit" [disabled]="!profileForm.valid"
+                                class="btn btn-success pull-right">Simpan</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>

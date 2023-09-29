@@ -93,3 +93,6 @@
     transform: rotate(360deg);
   }
 }
+.font-red {
+  color: #ff0e11;
+}

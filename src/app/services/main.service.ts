@@ -138,58 +138,6 @@ export class MainService {
     });
   }
 
-  // // http://localhost:1003/krs/peserta?jenis_aplikasi=web&krs_id=7&tahun_akademik=2020-2021&status_semester=2&id_master_jenjang=1&kode_prodi=K51&id_master_kelas=2
-
-  // getPesertaByMatkul(
-  //   jenis_aplikasi,
-  //   krs_id,
-  //   tahun_akademik,
-  //   status_semester,
-  //   id_master_jenjang,
-  //   kode_prodi,
-  //   id_master_kelas
-  // ): Observable<PesertaByMatkul> {
-  //   let params = new HttpParams();
-  //   params = params.append("jenis_aplikasi", jenis_aplikasi);
-  //   params = params.append("krs_id", krs_id);
-  //   params = params.append("tahun_akademik", tahun_akademik);
-  //   params = params.append("status_semester", status_semester);
-  //   params = params.append("id_master_jenjang", id_master_jenjang);
-  //   params = params.append("kode_prodi", kode_prodi);
-  //   params = params.append("id_master_kelas", id_master_kelas);
-  //   return this.http.get<PesertaByMatkul>(
-  //     `${this.appConfig.apiUrlKrs}/krs/peserta`,
-  //     {
-  //       params: params,
-  //     }
-  //   );
-  // }
-
-  // // http://localhost:1003/krs/dosen/matkul?jenis_aplikasi=web&kode_matkul=Mkb0-3101
-  // getDosenByMatkul(jenis_aplikasi, kode_matkul): Observable<DosenByMatkul> {
-  //   let params = new HttpParams();
-  //   params = params.append("jenis_aplikasi", jenis_aplikasi);
-  //   params = params.append("kode_matkul", kode_matkul);
-  //   return this.http.get<DosenByMatkul>(
-  //     `${this.appConfig.apiUrlKrs}/krs/dosen/matkul`,
-  //     {
-  //       params: params,
-  //     }
-  //   );
-  // }
-
-  // getAllRuangan(): Observable<Ruangan> {
-  //   return this.http.get<Ruangan>(
-  //     `${this.appConfig.apiUrlKrs}/dropdown/ruangan`
-  //   );
-  // }
-
-  // getAllKaprodi(): Observable<Kaprodi> {
-  //   return this.http.get<Kaprodi>(
-  //     `${this.appConfig.apiUrlKrs}/dropdown/kaprodi`
-  //   );
-  // }
-
   processClustering(data: any): Observable<any> {
     let API_URL = `${this.appConfig.apiUrl}/main/clustering`;
     return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
@@ -197,6 +145,16 @@ export class MainService {
 
   processPrediksi(data: any): Observable<any> {
     let API_URL = `${this.appConfig.apiUrl}/main/prediksi`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
+
+  createInput(data: any): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/main/createsingle`;
+    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+  }
+
+  createBulk(data: any): Observable<any> {
+    let API_URL = `${this.appConfig.apiUrl}/main/createmulti`;
     return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
   }
 

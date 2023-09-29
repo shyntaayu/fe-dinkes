@@ -1,4 +1,10 @@
-import { Component, Injector, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  Injector,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AppComponentBase } from "shared/app-component-base";
 import {
@@ -24,6 +30,9 @@ import * as _moment from "moment";
 import { default as _rollupMoment, Moment } from "moment";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { CookieService } from "ngx-cookie-service";
+import { MainService } from "app/services/main.service";
+import { finalize } from "rxjs/operators";
 
 const moment = _rollupMoment || _moment;
 
@@ -36,7 +45,6 @@ export const MY_FORMATS = {
   display: {
     dateInput: "YYYY",
     monthYearLabel: "YYYY",
-    dateA11yLabel: "LL",
     monthYearA11yLabel: "YYYY",
   },
 };
@@ -63,7 +71,15 @@ export class InputDataComponent extends AppComponentBase implements OnInit {
   penyakit;
   tahun;
   jumlah;
-  constructor(private fb: FormBuilder, injector: Injector) {
+  tahunNumber;
+  loading = false;
+  user;
+  constructor(
+    private fb: FormBuilder,
+    injector: Injector,
+    private cookieService: CookieService,
+    private _mainService: MainService
+  ) {
     super(injector);
     this.profileForm = this.fb.group({
       penyakit: ["", Validators.required],
@@ -74,18 +90,43 @@ export class InputDataComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {
     this.tahun = moment();
+    this.user = JSON.parse(this.cookieService.get("userMe"));
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    let model = this.profileForm.value;
+    model.daerah_id = this.user.daerah_id;
+    model.tahun = this.tahunNumber;
+    this.loading = true;
 
-  chosenYearHandler(
-    normalizedMonthAndYear: Moment,
-    datepicker: MatDatepicker<Moment>
-  ) {
-    const ctrlValue = this.tahun;
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.tahun.setValue(ctrlValue);
-    datepicker.close();
-    console.log(this.tahun, ctrlValue);
+    this._mainService
+      .createInput(model)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(
+        (data) => {
+          let result = data;
+          this.showMessage(data.message, undefined, "success");
+          this.profileForm.reset();
+        },
+        (error) => {
+          this.showMessage("Eror!", error.message, "error");
+        }
+      );
+  }
+
+  @ViewChild("picker", { static: false })
+  private picker!: MatDatepicker<Date>;
+
+  chosenYearHandler(ev, input) {
+    let { _d } = ev;
+
+    this.tahun = _d;
+    this.tahunNumber = ev._i.year;
+    console.log("chosenYearHandler", this.tahunNumber);
+    this.picker.close();
   }
 }

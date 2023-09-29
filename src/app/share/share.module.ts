@@ -14,6 +14,7 @@ import { DaerahDdlComponent } from "./daerah-ddl.component";
 import { TahunDdlComponent } from "./tahun-ddl.component";
 import { TahunSingleDdlComponent } from "./tahun-single-ddl.component";
 import { DropdownModule } from "primeng/dropdown";
+import { PenyakitSingleDdlComponent } from "./penyakit-single-ddl.component";
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { DropdownModule } from "primeng/dropdown";
     DaerahDdlComponent,
     TahunDdlComponent,
     TahunSingleDdlComponent,
+    PenyakitSingleDdlComponent,
   ],
   exports: [
     PenyakitDdlComponent,
@@ -44,6 +46,7 @@ import { DropdownModule } from "primeng/dropdown";
     DaerahDdlComponent,
     TahunDdlComponent,
     TahunSingleDdlComponent,
+    PenyakitSingleDdlComponent,
   ],
 })
 export class ShareModule {}
