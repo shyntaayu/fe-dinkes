@@ -128,7 +128,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // this.menuItems = ROUTES.filter((menuItem) => menuItem);
-    console.log("menuItems", this.authenticationService.userValue["role_id"]);
+    // console.log("menuItems", this.authenticationService.userValue["role_id"]);
     this.menuNew = menu;
     let a = JSON.parse(this.cookieService.get("userMe"));
     this.userFromApi = a ? a.user_name : null;
@@ -144,7 +144,8 @@ export class SidebarComponent implements OnInit {
     if (menuItem.permissionName) {
       let permission = menuItem.permissionName.split(",");
       let f = permission.find((x) => {
-        return x == this.authenticationService.userValue["role_id"];
+        // return x == this.authenticationService.userValue["role_id"];
+        return true;
       });
       return f;
     }

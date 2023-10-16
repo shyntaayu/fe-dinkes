@@ -21,6 +21,7 @@ export class DynamicTableComponent
 {
   @Input() data: any[];
   @Input() type: any;
+  @Input() iterasi = 0;
   @Input() pilihan: any;
   @Output() prosesClustering: EventEmitter<any> = new EventEmitter<any>();
   @Output() prosesDiagram: EventEmitter<any> = new EventEmitter<any>();

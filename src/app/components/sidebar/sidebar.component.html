@@ -10,7 +10,7 @@
 </div>
 <div class="sidebar-wrapper">
     <div *ngIf="isMobileMenu()">
-        <form class="navbar-form">
+        <!-- <form class="navbar-form">
             <span class="bmd-form-group">
                 <div class="input-group no-border">
                     <input type="text" value="" class="form-control" placeholder="Search...">
@@ -20,9 +20,9 @@
                     </button>
                 </div>
             </span>
-        </form>
+        </form> -->
         <ul class="nav navbar-nav nav-mobile-menu">
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="userFromApi">
                 <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     {{userFromApi}}

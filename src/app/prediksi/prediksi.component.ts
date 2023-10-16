@@ -143,7 +143,8 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
         })
       )
       .subscribe(
-        (res) => {
+        (result) => {
+          let res = result["data"];
           console.log("hasil----", res);
           let index = 0;
           if (this.pilihan == 1)
@@ -155,6 +156,7 @@ export class PrediksiComponent extends AppComponentBase implements OnInit {
               (e) => e.daerah_name == param.daerah_name
             );
           this.listPenyakitTemp[index].list_table = res;
+          this.listPenyakitTemp[index].iterasi = result["iterations"];
           // this.listPenyakitTemp = this.listPenyakit;
           // this.listPenyakit = [...this.listPenyakit];
           this.listPenyakitTemp = [...this.listPenyakitTemp];

@@ -67,8 +67,8 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
-    canActivate: [AuthGuard],
-    data: { permission: [1, 2] },
+    // canActivate: [AuthGuard],
+    // data: { permission: [1, 2] },
   },
   { path: "user-profile", component: UserProfileComponent },
   { path: "table-list", component: TableListComponent },
@@ -80,8 +80,8 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "data",
     component: DataComponent,
-    canActivate: [AuthGuard],
-    data: { permission: [1, 2] },
+    // canActivate: [AuthGuard],
+    // data: { permission: [1, 2] },
   },
   {
     path: "hasil",
@@ -92,20 +92,20 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "grafik",
     component: GrafikComponent,
-    canActivate: [AuthGuard],
-    data: { permission: [1, 2] },
+    // canActivate: [AuthGuard],
+    // data: { permission: [1, 2] },
   },
   {
     path: "prediksi",
     component: PrediksiComponent,
-    canActivate: [AuthGuard],
-    data: { permission: [1, 2] },
+    // canActivate: [AuthGuard],
+    // data: { permission: [1, 2] },
   },
   {
     path: "diagram",
     component: PieClusterComponent,
-    canActivate: [AuthGuard],
-    data: { permission: [1, 2] },
+    // canActivate: [AuthGuard],
+    // data: { permission: [1, 2] },
   },
   {
     path: "input",

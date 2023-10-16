@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
+  userFromApi = false;
 
   constructor(
     location: Location,
@@ -42,6 +43,9 @@ export class NavbarComponent implements OnInit {
         this.mobile_menu_visible = 0;
       }
     });
+
+    let a = this.authenticationService.userValue["role_id"];
+    this.userFromApi = a ? true : false;
   }
 
   sidebarOpen() {

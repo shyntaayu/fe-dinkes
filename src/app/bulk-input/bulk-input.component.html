@@ -5,8 +5,12 @@
                 <div class="card">
                     <div class="card-header card-header-success">
                         <div class="card-container">
-                            <h4 class="card-title">Input Bulk Data</h4>
-                            <p class="card-category">Complete the requirement fields</p>
+                            <div style="padding-right: 16px;">
+                                <h4 class="card-title">Input Bulk Data</h4>
+                                <p class="card-category">Superadmin menginputkan jumlah penyakit per tahun per kota
+                                    dengan
+                                    menggunakan format excel</p>
+                            </div>
                             <div class="card-button">
                                 <button mat-raised-button class="btn btn-rose" (click)="downloadTemplate()">Download
                                     Template</button>
@@ -14,27 +18,40 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Tahun" type="date">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-9">
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Penyakit Name" type="text">
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="File" type="file">
+                        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                            <div class="row form-row">
+                                <label class="col-md-3 col-2 col-form-label">Tahun<span
+                                        class="font-red">*</span></label>
+                                <div class="col-md-9 col-9">
+                                    <mat-form-field style="width: min-content;">
+                                        <input [(ngModel)]="tahun" formControlName="tahun" matInput
+                                            [matDatepicker]="picker" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker startView="multi-year"
+                                            (yearSelected)="chosenYearHandler($event, picker)">
+                                        </mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-success pull-right">Simpan</button>
+                            <div class="row form-row">
+                                <label class="col-md-3 col-2 col-form-label">Penyakit<span
+                                        class="font-red">*</span></label>
+                                <div class="col-md-9 col-9">
+                                    <penyakit-single-ddl formControlName="penyakit" [(ngModel)]="penyakit">
+                                    </penyakit-single-ddl>
+                                </div>
+                            </div>
+                            <div class="row form-row">
+                                <label class="col-md-3 col-2 col-form-label">File<span class="font-red">*</span></label>
+                                <div class="col-md-9 col-9">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="File" type="file" formControlName="file"
+                                            accept=".xls,.xlsx" (change)="loadFile($event)">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" [disabled]="!profileForm.valid"
+                                class="btn btn-success pull-right">Simpan</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>

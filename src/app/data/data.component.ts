@@ -142,7 +142,8 @@ export class DataComponent extends AppComponentBase implements OnInit {
         })
       )
       .subscribe(
-        (res) => {
+        (result) => {
+          let res = result["data"];
           console.log("hasil----", res);
           let index = 0;
           if (this.pilihan == 1)
@@ -156,6 +157,7 @@ export class DataComponent extends AppComponentBase implements OnInit {
 
           if (this.pilihan != 3) {
             this.listPenyakitTemp[index].list_table = res;
+            this.listPenyakitTemp[index].iterasi = result["iterations"];
             this.listPenyakitTemp = [...this.listPenyakitTemp];
           } else {
             this.restructuredDataPie.map((restructured) => {
