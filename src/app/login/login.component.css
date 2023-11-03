@@ -1,6 +1,9 @@
 .bg {
-  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)),
-    url(/assets/img/cover.jpeg) no-repeat no-repeat center center fixed;
+  background: linear-gradient(
+    90deg,
+    rgba(69, 196, 81, 1) 0%,
+    rgba(42, 161, 20, 1) 35%
+  );
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
