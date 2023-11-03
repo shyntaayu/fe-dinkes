@@ -45,7 +45,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/upload-bulk",
-    title: "Upload Bulk Data",
+    title: "Input Bulk Data",
     icon: "publish",
     class: "",
   },
@@ -58,6 +58,18 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/role",
     title: "Master Role",
+    icon: "lock",
+    class: "",
+  },
+  {
+    path: "/penyakit",
+    title: "Master Penyakit",
+    icon: "lock",
+    class: "",
+  },
+  {
+    path: "/daerah",
+    title: "Master Daerah",
     icon: "lock",
     class: "",
   },
@@ -96,8 +108,8 @@ export const menu: AppMenuItem[] = [
   new AppMenuItem("Prediksi", "1", "cast", "/prediksi"),
   new AppMenuItem("Grafik", "1", "show_chart", "/grafik"),
   new AppMenuItem("Diagram Cluster", "1", "pie_chart", "/diagram"),
-  new AppMenuItem("Input Data", "1,2", "input", "/input"),
-  new AppMenuItem("Upload Bulk Data", "1", "publish", "/upload-bulk"),
+  new AppMenuItem("Input Data", "2", "input", "/input"),
+  new AppMenuItem("Input Bulk Data", "1", "publish", "/upload-bulk"),
   // new AppMenuItem("Transkrip Nilai", "1", "school", "/transkrip-nilai"),
   // new AppMenuItem("Input Nilai", "1,8", "edit_note", "/add-nilai"),
   // new AppMenuItem("Paket KRS", "1", "post_add", "/paket-krs"),
@@ -128,7 +140,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // this.menuItems = ROUTES.filter((menuItem) => menuItem);
-    // console.log("menuItems", this.authenticationService.userValue["role_id"]);
+    console.log("menuItems", this.authenticationService.userValue);
     this.menuNew = menu;
     let a = JSON.parse(this.cookieService.get("userMe"));
     this.userFromApi = a ? a.user_name : null;
@@ -144,8 +156,10 @@ export class SidebarComponent implements OnInit {
     if (menuItem.permissionName) {
       let permission = menuItem.permissionName.split(",");
       let f = permission.find((x) => {
-        // return x == this.authenticationService.userValue["role_id"];
-        return true;
+        let a = this.authenticationService.userValue;
+        if (a != null || a != undefined) {
+          return x == this.authenticationService.userValue["role_id"];
+        } else return true;
       });
       return f;
     }

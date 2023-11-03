@@ -5,7 +5,7 @@ export class ValidationService {
     label?: string
   ) {
     let config = {
-      required: `${label} is required.`,
+      required: `${label} diperlukan.`,
       email: "Please enter a valid email address.",
       emailcomplete: "Please enter a valid email address.",
       min: `The lowest value of ${label.toLowerCase()} is ${

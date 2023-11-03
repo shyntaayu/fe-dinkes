@@ -55,9 +55,11 @@ export class DaerahComponent extends AppComponentBase implements OnInit {
 
   deleteSelectedDaerahs() {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete the selected daerahs?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus daerah yang dipilih?",
+      header: "Konfirmasi",
       icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       accept: () => {
         this.selectedDaerahs.map((daerah) => {
           this._daerahService.delete(daerah.daerah_id).subscribe(
@@ -87,9 +89,11 @@ export class DaerahComponent extends AppComponentBase implements OnInit {
 
   deleteDaerah(daerah: Daerah) {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete " + daerah.daerah_name + "?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus " + daerah.daerah_name + "?",
+      header: "Konfirmasi",
       icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       accept: () => {
         this._daerahService.delete(daerah.daerah_id).subscribe(
           (data) => {

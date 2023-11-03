@@ -88,9 +88,11 @@ export class UserComponent extends AppComponentBase implements OnInit {
 
   deleteSelectedUsers() {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete the selected users?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus pengguna yang dipilih?",
+      header: "Konfirmasi",
       icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       accept: () => {
         this.selectedUsers.map((user) => {
           this._userService.delete(user.user_id).subscribe(
@@ -120,8 +122,10 @@ export class UserComponent extends AppComponentBase implements OnInit {
 
   deleteUser(user: User) {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete " + user.user_name + "?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus " + user.user_name + "?",
+      header: "Konfirmasi",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this._userService.delete(user.user_id).subscribe(

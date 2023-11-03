@@ -213,6 +213,6 @@ export class UserService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(errorMessage);
+    return throwError(error.error);
   }
 }

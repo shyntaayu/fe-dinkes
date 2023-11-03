@@ -5,7 +5,7 @@
         <div class="card">
             <p-toolbar styleClass="p-mb-4">
                 <ng-template pTemplate="left">
-                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+                    <button pButton pRipple label="Buat User Baru" icon="pi pi-plus" class="p-button-success p-mr-2"
                         (click)="openNew()"></button>
                     <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
                         (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
@@ -19,11 +19,11 @@
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="caption">
                     <div class="p-d-flex p-ai-center p-jc-between">
-                        <h5 class="p-m-0">Manage Users</h5>
+                        <h5 class="p-m-0">Mengelola User</h5>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                                placeholder="Search..." />
+                                placeholder="Cari..." />
                         </span>
                     </div>
                 </ng-template>
@@ -59,27 +59,27 @@
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="p-d-flex p-ai-center p-jc-between">
-                        In total there are {{users ? users.length : 0 }} users.
+                        Secara total ada {{users ? users.length : 0 }} user.
                     </div>
                 </ng-template>
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true" autoZIndex
+        <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Detail" [modal]="true" autoZIndex
             styleClass="p-fluid">
             <ng-template pTemplate="content">
 
                 <div class="p-field">
-                    <label for="user_name">Name</label>
+                    <label for="user_name">Nama</label>
                     <input type="text" pInputText id="user_name" [(ngModel)]="user.user_name" required autofocus
                         autocomplete="false" />
-                    <small class="p-invalid" *ngIf="submitted && !user.user_name">Name is required.</small>
+                    <small class="p-invalid" *ngIf="submitted && !user.user_name">Nama diperlukan.</small>
                 </div>
                 <div class="p-field">
                     <label for="password">Password</label>
                     <input type="password" id="password" pInputText [(ngModel)]="user.password" required
                         autocomplete="false" />
-                    <small class="p-invalid" *ngIf="submitted && !user.password">Password is required.</small>
+                    <small class="p-invalid" *ngIf="submitted && !user.password">Password diperlukan.</small>
                 </div>
 
                 <div class="p-field">
@@ -87,7 +87,7 @@
                     <p-dropdown [options]="listDaerah" [(ngModel)]="user.daerah_id" optionValue="daerah_id" placeholder="
                         Pilih Daerah" required optionLabel="daerah_name" [showClear]="true"
                         appendTo="body"></p-dropdown>
-                    <small class="p-invalid" *ngIf="submitted && !user.daerah_id">Daerah is required.</small>
+                    <small class="p-invalid" *ngIf="submitted && !user.daerah_id">Daerah diperlukan.</small>
                 </div>
 
                 <div class="p-field">
@@ -95,12 +95,12 @@
                     <p-dropdown [options]="listRole" [(ngModel)]="user.role_id" placeholder="Pilih Role"
                         optionValue="role_id" required optionLabel="role_name" [showClear]="true"
                         appendTo="body"></p-dropdown>
-                    <small class="p-invalid" *ngIf="submitted && !user.role_id">Role is required.</small>
+                    <small class="p-invalid" *ngIf="submitted && !user.role_id">Role diperlukan.</small>
                 </div>
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                <button pButton pRipple label="Batal" icon="pi pi-times" class="p-button-text"
                     (click)="hideDialog()"></button>
                 <button pButton pRipple label="Simpan" icon="pi pi-check" class="p-button-text"
                     (click)="saveUser()"></button>

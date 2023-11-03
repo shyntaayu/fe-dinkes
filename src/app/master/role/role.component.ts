@@ -57,8 +57,10 @@ export class RoleComponent extends AppComponentBase implements OnInit {
 
   deleteSelectedRoles() {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete the selected roles?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus role yang dipilih?",
+      header: "Konfirmasi",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.selectedRoles.map((role) => {
@@ -89,9 +91,11 @@ export class RoleComponent extends AppComponentBase implements OnInit {
 
   deleteRole(role: Role) {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete " + role.role_name + "?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus " + role.role_name + "?",
+      header: "Konfirmasi",
       icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       accept: () => {
         this._roleService.delete(role.role_id).subscribe(
           (data) => {

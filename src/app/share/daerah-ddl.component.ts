@@ -29,7 +29,7 @@ const noop = () => {};
         display="chip"
       >
         <ng-template pTemplate="header">
-          <div class="checkbox-all-text">Select All</div>
+          <div class="checkbox-all-text">Pilih Semua</div>
         </ng-template></p-multiSelect
       >
     </div>

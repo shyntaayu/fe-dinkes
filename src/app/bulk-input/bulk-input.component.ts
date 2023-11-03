@@ -92,7 +92,7 @@ export class BulkInputComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tahun = moment();
+    this.tahun = null;
     this.user = JSON.parse(this.cookieService.get("userMe"));
   }
 
@@ -113,7 +113,7 @@ export class BulkInputComponent extends AppComponentBase implements OnInit {
           this.profileForm.reset();
         },
         (error) => {
-          this.showMessage("Eror!", error.message, "error");
+          this.showMessage(error.message, error.error, "error");
         }
       );
   }

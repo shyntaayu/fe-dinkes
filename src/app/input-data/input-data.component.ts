@@ -84,12 +84,12 @@ export class InputDataComponent extends AppComponentBase implements OnInit {
     this.profileForm = this.fb.group({
       penyakit: ["", Validators.required],
       jumlah: ["", Validators.required],
-      tahun: [moment(), Validators.required],
+      tahun: [null, Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.tahun = moment();
+    this.tahun = null;
     this.user = JSON.parse(this.cookieService.get("userMe"));
   }
 
@@ -113,7 +113,7 @@ export class InputDataComponent extends AppComponentBase implements OnInit {
           this.profileForm.reset();
         },
         (error) => {
-          this.showMessage("Eror!", error.message, "error");
+          this.showMessage(error.message, error.error, "error");
         }
       );
   }

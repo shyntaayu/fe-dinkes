@@ -56,9 +56,11 @@ export class PenyakitComponent extends AppComponentBase implements OnInit {
 
   deleteSelectedPenyakits() {
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete the selected penyakits?",
-      header: "Confirm",
+      message: "Apakah Anda yakin ingin menghapus penyakit yang dipilih?",
+      header: "Konfirmasi",
       icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       accept: () => {
         this.selectedPenyakits.map((penyakit) => {
           this._penyakitService.delete(penyakit.penyakit_id).subscribe(
@@ -89,8 +91,10 @@ export class PenyakitComponent extends AppComponentBase implements OnInit {
   deletePenyakit(penyakit: Penyakit) {
     this.confirmationService.confirm({
       message:
-        "Are you sure you want to delete " + penyakit.penyakit_name + "?",
-      header: "Confirm",
+        "Apakah Anda yakin ingin menghapus " + penyakit.penyakit_name + "?",
+      header: "Konfirmasi",
+      acceptLabel: "Ya",
+      rejectLabel: "Tidak",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this._penyakitService.delete(penyakit.penyakit_id).subscribe(

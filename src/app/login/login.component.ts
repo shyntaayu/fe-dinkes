@@ -43,7 +43,6 @@ export class LoginComponent extends AppComponentBase implements OnInit {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
     this.loading = true;
     this.authenticationService
       .login(this.profileForm.value.email, this.profileForm.value.password)
@@ -57,7 +56,7 @@ export class LoginComponent extends AppComponentBase implements OnInit {
         },
         (error) => {
           this.error = error;
-          this.showMessage("Eror!", error.message, "error");
+          this.showMessage("Eror!", error.error.message, "error");
         }
       );
   }
