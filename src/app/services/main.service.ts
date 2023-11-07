@@ -140,7 +140,18 @@ export class MainService {
 
   processClustering(data: any): Observable<any> {
     let API_URL = `${this.appConfig.apiUrl}/main/clustering`;
-    return this.http.post(API_URL, data).pipe(catchError(this.errorMgmt));
+    const params = new HttpParams().set("body", data);
+    let options = {
+      headers: new HttpHeaders({
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      }),
+      withCredentials: true,
+      // params: params,
+    };
+    return this.http
+      .post(API_URL, data, options)
+      .pipe(catchError(this.errorMgmt));
   }
 
   processPrediksi(data: any): Observable<any> {
@@ -161,6 +172,7 @@ export class MainService {
   // Error handling
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = "";
+    console.error(error);
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;

@@ -20,6 +20,7 @@ export class PenyakitService {
   constructor(private http: HttpClient, private appConfig: AppConfig) {}
 
   getAllPenyakit(): Observable<Penyakits> {
+    console.log("getAllPenyakit", this.appConfig.apiUrl);
     return this.http.get<Penyakits>(`${this.appConfig.apiUrl}/penyakit`);
   }
 

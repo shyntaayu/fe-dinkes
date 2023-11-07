@@ -1,7 +1,11 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app.routing";
 import { ComponentsModule } from "./components/components.module";
@@ -11,6 +15,7 @@ import { UtilsModule } from "shared/utils/utils.module";
 import { AppConfig } from "./model/app-config";
 import { AppConfigService } from "shared/appconfig.service";
 import { LoginComponent } from "./login/login.component";
+import { AuthInterceptor } from "./services/auth.interceptor";
 
 export function initializerFn(jsonAppConfigService: AppConfigService) {
   return () => {
@@ -41,6 +46,7 @@ export function initializerFn(jsonAppConfigService: AppConfigService) {
       deps: [AppConfigService],
       useFactory: initializerFn,
     },
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

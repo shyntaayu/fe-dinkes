@@ -1,4 +1,6 @@
 {
     "title":"KMean Dinkes Jatim",
-    "apiUrl": "https://dinkes-jatim.000webhostapp.com"
+    "apiUrlProd": "https://dinkes-jatim.000webhostapp.com",
+    "apiUrl": "https://dinkes-jatim.000webhostapp.com",
+    "apiUrlDev": "http://localhost/s2/kmean-dinkes"
 }

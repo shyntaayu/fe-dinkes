@@ -15,8 +15,9 @@ import { AppConfig } from "app/model/app-config";
 })
 export class AuthenticationService extends AppComponentBase {
   headers = new HttpHeaders().set("Content-Type", "application/json");
-  private userSubject: BehaviorSubject<LoginResponse>;
-  public user: Observable<LoginResponse>;
+  private loggedUserSubject: BehaviorSubject<LoginResponse>;
+  public loggedInUser: Observable<LoginResponse>;
+  getLoggedUser;
 
   constructor(
     private router: Router,
@@ -26,25 +27,32 @@ export class AuthenticationService extends AppComponentBase {
     private appConfig: AppConfig
   ) {
     super(injector);
-    // this.userSubject = new BehaviorSubject<LoginResponse>(JSON.parse(localStorage.getItem('userMe')));
+    this.getLoggedUser = JSON.parse(localStorage.getItem("user"));
+    this.loggedUserSubject = new BehaviorSubject(this.getLoggedUser);
+    this.loggedInUser = this.loggedUserSubject.asObservable();
+    // this.loggedUserSubject = new BehaviorSubject<LoginResponse>(JSON.parse(localStorage.getItem('userMe')));
     if (this.cookieService.check("userMe")) {
       this.cookieService.get("userMe");
-      this.userSubject = new BehaviorSubject<LoginResponse>(
+      this.loggedUserSubject = new BehaviorSubject<LoginResponse>(
         JSON.parse(this.cookieService.get("userMe"))
       );
-      this.user = this.userSubject.asObservable();
+      this.loggedInUser = this.loggedUserSubject.asObservable();
     } else {
-      this.userSubject = new BehaviorSubject<LoginResponse>(null);
+      this.loggedUserSubject = new BehaviorSubject<LoginResponse>(null);
     }
   }
 
   public get userValue(): LoginResponse {
-    return this.userSubject.getValue();
+    return this.loggedUserSubject.getValue();
   }
 
   login(username: string, password: string) {
+    console.log("login", environment.apiUrl);
     return this.http
-      .post<any>(`${this.appConfig.apiUrl}/user/login`, { username, password })
+      .post<any>(`${environment.apiUrl}/user/login`, {
+        username,
+        password,
+      })
       .pipe(
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -53,12 +61,13 @@ export class AuthenticationService extends AppComponentBase {
             // this.showNotification("top", "right", user.msg, "danger");
             this.showMessage("Eror!", user.msg, "error");
           } else {
-            this.userSubject.next(user.result);
+            this.loggedUserSubject.next(user.result);
             this.cookieService.set(
               "userMe",
               JSON.stringify(user.result),
               new Date(new Date().getTime() + 1 * 86400000) // 1 day
             );
+            localStorage.setItem("user", JSON.stringify(user.result));
             this.showNotification("top", "right", "Login sukses", "success");
           }
           return user.result;
@@ -68,9 +77,9 @@ export class AuthenticationService extends AppComponentBase {
 
   logout() {
     // remove user from local storage to log user out
-    // localStorage.removeItem('userMe');
+    localStorage.removeItem("user");
     this.cookieService.delete("userMe");
-    this.userSubject.next(null);
+    this.loggedUserSubject.next(null);
     this.router.navigate(["/login"]);
   }
 }

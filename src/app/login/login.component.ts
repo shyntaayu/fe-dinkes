@@ -56,7 +56,7 @@ export class LoginComponent extends AppComponentBase implements OnInit {
         },
         (error) => {
           this.error = error;
-          this.showMessage("Eror!", error.error.message, "error");
+          this.showMessage("Eror!", error.error, "error");
         }
       );
   }
