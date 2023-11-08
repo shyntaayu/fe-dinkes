@@ -60,4 +60,8 @@ export class LoginComponent extends AppComponentBase implements OnInit {
         }
       );
   }
+
+  toDashboard() {
+    this.router.navigate(["dashboard"]);
+  }
 }

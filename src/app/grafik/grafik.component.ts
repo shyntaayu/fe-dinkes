@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
@@ -25,7 +26,7 @@ export class GrafikComponent
   penyakit = [];
   isData = false;
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private router: Router) {
     super(injector);
     let dataLine = localStorage.getItem("dataLine");
     this.title = localStorage.getItem("titleLine");
@@ -97,5 +98,9 @@ export class GrafikComponent
     };
     this.dataTemp = { ...filteredData };
     console.log("aaa", filteredData);
+  }
+
+  toPrediksi() {
+    this.router.navigate(["prediksi"]);
   }
 }

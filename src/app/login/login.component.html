@@ -26,8 +26,8 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <a href="dashboard"
-                                            class="btn btn-secondary btn-round mt-4 mr-2">Dashboard</a><button
+                                        <button (click)="toDashboard()"
+                                            class="btn btn-secondary btn-round mt-4 mr-2">Dashboard</button><button
                                             type="submit" [disabled]="!profileForm.valid"
                                             class="btn btn-success btn-round mt-4">Login</button>
                                     </div>

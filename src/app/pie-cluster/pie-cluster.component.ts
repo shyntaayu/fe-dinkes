@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { AppComponentBase } from "shared/app-component-base";
 
 @Component({
@@ -22,7 +23,7 @@ export class PieClusterComponent
   pilihanText = "";
   pilihanKet = "";
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private router: Router) {
     super(injector);
     let dataPie = localStorage.getItem("dataPie");
     this.title = localStorage.getItem("titlePie");
@@ -117,5 +118,9 @@ export class PieClusterComponent
     const uniqueYears = [...new Set(years)];
 
     return uniqueYears;
+  }
+
+  toClustering() {
+    this.router.navigate(["data"]);
   }
 }
