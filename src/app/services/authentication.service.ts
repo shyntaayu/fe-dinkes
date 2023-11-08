@@ -49,7 +49,7 @@ export class AuthenticationService extends AppComponentBase {
   login(username: string, password: string) {
     console.log("login", environment.apiUrl);
     return this.http
-      .post<any>(`${environment.apiUrl}/user/login`, {
+      .post<any>(`${this.appConfig.apiUrl}/user/login`, {
         username,
         password,
       })
