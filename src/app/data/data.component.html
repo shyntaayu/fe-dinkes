@@ -145,7 +145,13 @@
                                             (click)="getListTahun()" [loading]="loading">Perbarui Data</button>
                                     </div>
                                 </div>
-                                <span *ngIf="loadingPie">Proses Clustering .....</span>
+                                <div class="row form-row text-warning">
+                                    <div class="col-md-6"><b>Harap bersabar dan tunggu hingga muncul
+                                            dialog
+                                            box yang mengonfirmasi bahwa proses perhitungan cluster telah berhasil
+                                            selesai</b></div>
+                                    <div class="col-md-12" *ngIf="loadingPie">Proses Clustering .....</div>
+                                </div>
                                 <app-dynamic-pie [busyIf]="loadingPie"
                                     [dataDynamic]="restructuredDataPie"></app-dynamic-pie>
                             </div>
